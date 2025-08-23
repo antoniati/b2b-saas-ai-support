@@ -37,7 +37,7 @@ export async function createEmbedding(text: string): Promise<number[]> {
 export async function ragSupportAnswer(userQuestion: string): Promise<string> {
   try {
     // 1. Gerar embedding da pergunta
-    const queryEmbedding = await createEmbedding(userQuestion);
+    await createEmbedding(userQuestion);
 
     // 2. Buscar no DB vetorial (placeholder, depende da sua escolha)
     // const docs = await db.document.findMany({

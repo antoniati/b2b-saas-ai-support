@@ -22,6 +22,11 @@ jobs:
           node-version: '20'
           cache: 'pnpm'
 
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
@@ -29,12 +34,12 @@ jobs:
         run: pnpm run lint
 
       - name: Run TypeScript compiler
-        run: npx tsc --noEmit
+        run: pnpm run type-check
 
       - name: Run Prettier check
         run: pnpm run format:check
 
-  # Job de testes (quando implementados)
+  # Job de testes
   test:
     name: Run Tests
     runs-on: ubuntu-latest
@@ -49,6 +54,11 @@ jobs:
         with:
           node-version: '20'
           cache: 'pnpm'
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -77,8 +87,19 @@ jobs:
           node-version: '20'
           cache: 'pnpm'
 
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Cache Prisma Client
+        uses: actions/cache@v4
+        with:
+          path: node_modules/.prisma
+          key: ${{ runner.os }}-prisma-${{ hashFiles('prisma/schema.prisma') }}
 
       - name: Generate Prisma client
         run: npx prisma generate
@@ -92,11 +113,11 @@ jobs:
           name: build-output
           path: .next
 
-  # Security scanning (apenas em PRs para evitar erro no push)
+  # Security scanning
   security-scan:
     name: Security Scan
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
 
     steps:
       - name: Checkout code

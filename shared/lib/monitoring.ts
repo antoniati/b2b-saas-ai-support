@@ -1,4 +1,8 @@
 // TODO: Implementar a lógica de rastreamento de eventos
 export function trackEvent(eventName: string, properties?: Record<string, any>) {
-  // Integração com ferramentas de analytics
+  if (eventName && properties) {
+    console.log(`Event Tracked: ${eventName}`, properties);
+  } else {
+    return null;
+  }
 }

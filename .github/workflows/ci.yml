@@ -20,10 +20,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'pnpm'
 
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
         with:
           version: 9
 
@@ -34,7 +33,7 @@ jobs:
         run: pnpm run lint
 
       - name: Run TypeScript compiler
-        run: pnpm run type-check
+        run: pnpm exec tsc --noEmit
 
       - name: Run Prettier check
         run: pnpm run format:check
@@ -53,10 +52,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'pnpm'
 
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
         with:
           version: 9
 
@@ -71,7 +69,7 @@ jobs:
         with:
           file: ./coverage/lcov.info
 
-  # Job de build para verificar se o projeto compila corretamente
+  # Job de build
   build:
     name: Build Project
     runs-on: ubuntu-latest
@@ -85,24 +83,17 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'pnpm'
 
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
         with:
           version: 9
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Cache Prisma Client
-        uses: actions/cache@v4
-        with:
-          path: node_modules/.prisma
-          key: ${{ runner.os }}-prisma-${{ hashFiles('prisma/schema.prisma') }}
-
       - name: Generate Prisma client
-        run: npx prisma generate
+        run: pnpm exec prisma generate
 
       - name: Build project
         run: pnpm run build
@@ -113,15 +104,28 @@ jobs:
           name: build-output
           path: .next
 
-  # Security scanning
+  # Security scanning (apenas em PRs)
   security-scan:
     name: Security Scan
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' || github.event_name == 'push'
+    if: github.event_name == 'pull_request'
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Scan for vulnerabilities
         uses: actions/dependency-review-action@v4

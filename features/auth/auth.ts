@@ -1,7 +1,8 @@
-import { PrismaAdapter } from '@auth/prisma-adapter';
 import NextAuth from 'next-auth';
+import { PrismaAdapter } from '@auth/prisma-adapter';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { prismaClient } from '@/shared/lib/prisma';
+import { prismaClient } from '@/shared';
+import bcrypt from 'bcryptjs';
 
 /**
  * Configuração de autenticação utilizando NextAuth.
@@ -25,8 +26,21 @@ export const authOptions = {
       name: 'Credentials',
       credentials: { email: {}, password: {} },
       async authorize(credentials) {
-        console.log('Placeholder authorize', credentials?.email);
-        return { id: 'placeholder-id', email: credentials?.email };
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { email, password } = credentials;
+
+        const user = await prismaClient.user.findFirst({
+          where: { email: '' },
+        });
+
+        if (!user || !(await bcrypt.compare(password as string, user.password))) {
+          return null;
+        }
+
+        return {
+          id: user.id,
+          email: user.email,
+        };
       },
     }),
   ],

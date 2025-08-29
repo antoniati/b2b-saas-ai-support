@@ -9,6 +9,7 @@ Este guia descreve os padrões e hooks que utilizamos para lidar com formulário
 Responsável por submeter formulários usando uma mutation do react-query.
 
 ### Assinatura:
+
 ```ts
 useFormSubmitQuery<TFormValues extends FieldValues, TData = unknown>({
   form,
@@ -28,13 +29,14 @@ useFormSubmitQuery<TFormValues extends FieldValues, TData = unknown>({
 `invalidateQueries`: array de keys de queries para invalidar após sucesso.
 
 ### Retorno:
+
 ```ts
 {
-  handleSubmitFn, // função para passar para o submit do form
-  isLoading,      // true enquanto a mutation está em andamento
-  response,       // dados retornados da mutation
-  error,          // erro da mutation
-  reset           // função para resetar o formulário
+  (handleSubmitFn, // função para passar para o submit do form
+    isLoading, // true enquanto a mutation está em andamento
+    response, // dados retornados da mutation
+    error, // erro da mutation
+    reset); // função para resetar o formulário
 }
 ```
 
@@ -43,6 +45,7 @@ useFormSubmitQuery<TFormValues extends FieldValues, TData = unknown>({
 Hook que trata mensagens de sucesso e erro de formulários de forma centralizada.
 
 ### Assinatura:
+
 ```ts
 useFormMessages<TFormValues extends FieldValues, TData = unknown>({
   form,
@@ -52,16 +55,17 @@ useFormMessages<TFormValues extends FieldValues, TData = unknown>({
 ```
 
 ### Retorno:
+
 ```ts
 {
-  handleSubmitFn, // função de submit
-  isLoading,
-  response,
-  error,          // mensagem de erro
-  success,        // mensagem de sucesso
-  cleanMessages,  // limpa mensagens e erros do form
-  setError,
-  setSuccess
+  (handleSubmitFn, // função de submit
+    isLoading,
+    response,
+    error, // mensagem de erro
+    success, // mensagem de sucesso
+    cleanMessages, // limpa mensagens e erros do form
+    setError,
+    setSuccess);
 }
 ```
 
@@ -79,18 +83,21 @@ export type ActionResponse<TData = unknown> =
 ```
 
 Limpe mensagens do form ao abrir ou trocar de formulário:
+
 ```ts
 cleanMessages();
 ```
 
 Invalide queries quando o form alterar dados compartilhados:
+
 ```ts
-invalidateQueries: ['users', 'products']
+invalidateQueries: ['users', 'products'];
 ```
 
 Evite lógica de negócio nos `hooks`; foque apenas em state do form, mensagens e integração com mutation.
 
 Exemplo de uso
+
 ```ts
 const form = useForm<FormValues>();
 const { handleSubmitFn, error, success } = useFormMessages({

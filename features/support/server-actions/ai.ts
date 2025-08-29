@@ -38,12 +38,14 @@ export async function ragSupportAnswer(userQuestion: string): Promise<string> {
   try {
     // 1. Gerar embedding da pergunta
     const queryEmbedding = await createEmbedding(userQuestion);
+    console.log('queryEmbedding', queryEmbedding);
 
     // 2. Buscar no DB vetorial (placeholder, depende da sua escolha)
     // const docs = await db.document.findMany({
     //   where: { embedding: { _cosineSimilarity: queryEmbedding } },
     //   take: 3,
     // });
+
     const docs: { content: string }[] = []; // MOCK (substituir depois)
 
     // 3. Concatenar contexto

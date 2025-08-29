@@ -1,6 +1,4 @@
-/* eslint-disable no-var */
-
-import { PrismaClient } from '@/app/generated/prisma';
+import { PrismaClient } from '@prisma/client';
 
 /**
  * Declaração global para a variável `prisma`, que pode ser usada em qualquer lugar no código

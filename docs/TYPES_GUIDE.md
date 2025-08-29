@@ -7,6 +7,7 @@ Este guia descreve os tipos centrais que todos os devs devem usar ao lidar com A
 O tipo principal para respostas de APIs e mutations do frontend.
 
 ### Assinatura:
+
 ```ts
 export type ActionResponse<TData = unknown> =
   | {
@@ -35,6 +36,7 @@ export type ActionResponse<TData = unknown> =
 ## 2. Tipos auxiliares
 
 Se necessário, crie tipos específicos para formulários ou objetos de domínio, mas sempre compondo ou usando `ActionResponse<T>`:
+
 ```ts
 export interface UserData {
   id: string;
@@ -48,6 +50,7 @@ export type UserResponse = ActionResponse<UserData>;
 ## 3. Erros de domínio
 
 Para erros específicos de lógica de negócio, utilize a classe DomainError:
+
 ```ts
 export class DomainError extends Error {
   status: number;
@@ -63,6 +66,7 @@ export class DomainError extends Error {
 ```
 
 ### Uso recomendado:
+
 ```ts
 if (!userFound) {
   throw new DomainError('Usuário não encontrado', 404);

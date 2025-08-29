@@ -153,17 +153,18 @@ Seguimos Conventional Commits:
 
 <div align="center">
 
-| Etapa | Objetivo | Status |
-|-------|----------|--------|
-| 1️⃣ **Autenticação Multi-Tenant** | NextAuth.js + middleware para separar dados por empresa | 🟡 Em planejamento |
-| 2️⃣ **CRUD de Tickets** | Criar, ler, atualizar e deletar tickets com validação e testes | ⚪ Pendente |
-| 3️⃣ **IA para Respostas Automáticas** | OpenAI GPT-4 + RAG para FAQ e respostas inteligentes | ⚪ Pendente |
-| 4️⃣ **Dashboard de Métricas e Analytics** | Visualizar métricas de tickets, suporte e faturamento | ⚪ Pendente |
-| 5️⃣ **Integração Stripe (Planos SaaS)** | Checkout, webhooks e histórico de pagamentos | ⚪ Pendente |
+| Etapa                                    | Objetivo                                                       | Status             |
+| ---------------------------------------- | -------------------------------------------------------------- | ------------------ |
+| 1️⃣ **Autenticação Multi-Tenant**         | NextAuth.js + middleware para separar dados por empresa        | 🟡 Em planejamento |
+| 2️⃣ **CRUD de Tickets**                   | Criar, ler, atualizar e deletar tickets com validação e testes | ⚪ Pendente        |
+| 3️⃣ **IA para Respostas Automáticas**     | OpenAI GPT-4 + RAG para FAQ e respostas inteligentes           | ⚪ Pendente        |
+| 4️⃣ **Dashboard de Métricas e Analytics** | Visualizar métricas de tickets, suporte e faturamento          | ⚪ Pendente        |
+| 5️⃣ **Integração Stripe (Planos SaaS)**   | Checkout, webhooks e histórico de pagamentos                   | ⚪ Pendente        |
 
 </div>
 
 ### 🔄 Fluxo Sugerido
+
 1. Comece configurando a **autenticação multi-tenant** – todas as outras features dependem dela.
 2. Desenvolva o **CRUD de tickets** para garantir que o core do sistema esteja funcional.
 3. Adicione a **IA para respostas automáticas**, testando em sandbox.
@@ -171,6 +172,7 @@ Seguimos Conventional Commits:
 5. Finalize com a **integração do Stripe**, garantindo que pagamentos e assinaturas funcionem corretamente.
 
 ### 📝 Dicas
+
 - Use **branches feature/** para cada etapa.
 - Mantenha **commits claros e pequenos**.
 - Atualize o **README ou Docs** à medida que cada etapa é concluída.
@@ -179,7 +181,6 @@ Seguimos Conventional Commits:
 <div align="center">
 🚀 Este roadmap ajuda o time a visualizar progresso e dependências, garantindo um desenvolvimento organizado e profissional!
 </div>
-
 
 ---
 

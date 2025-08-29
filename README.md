@@ -128,25 +128,6 @@ http://localhost:3000/api/health
 
 ---
 
-## 🧪 Desenvolvimento
-
-Scripts Disponíveis
-
-```bash
-npm run dev          # Desenvolvimento com Turbopack
-npm run build        # Build de produção
-npm run start        # Inicia servidor de produção
-npm run lint         # Executa ESLint
-npm run format:check # Verifica formatação
-npm run format:fix   # Corrige formatação
-npm test             # Executa testes
-npm run test:watch   # Executa testes em modo watch
-npm run test:coverage # Executa testes com cobertura
-npm run type-check   # Verificação de tipos TypeScript
-```
-
----
-
 ## 📝 Commits e Branches
 
 Estrutura de Branches:
@@ -168,23 +149,52 @@ Seguimos Conventional Commits:
 
 ---
 
-## 📚 Próximos Passos
+## 📊 Roadmap do Projeto
 
-- Configurar autenticação multi-tenant (NextAuth/middleware)
-- Criar CRUD completo de tickets
-- Integrar IA para respostas automáticas e RAG (FAQ)
-- Dashboard de métricas e analytics
-- Integração Stripe (planos SaaS)
+<div align="center">
+
+| Etapa                                    | Objetivo                                                       | Status             |
+| ---------------------------------------- | -------------------------------------------------------------- | ------------------ |
+| 1️⃣ **Autenticação Multi-Tenant**         | NextAuth.js + middleware para separar dados por empresa        | 🟡 Em planejamento |
+| 2️⃣ **CRUD de Tickets**                   | Criar, ler, atualizar e deletar tickets com validação e testes | ⚪ Pendente        |
+| 3️⃣ **IA para Respostas Automáticas**     | OpenAI GPT-4 + RAG para FAQ e respostas inteligentes           | ⚪ Pendente        |
+| 4️⃣ **Dashboard de Métricas e Analytics** | Visualizar métricas de tickets, suporte e faturamento          | ⚪ Pendente        |
+| 5️⃣ **Integração Stripe (Planos SaaS)**   | Checkout, webhooks e histórico de pagamentos                   | ⚪ Pendente        |
+
+</div>
+
+### 🔄 Fluxo Sugerido
+
+1. Comece configurando a **autenticação multi-tenant** – todas as outras features dependem dela.
+2. Desenvolva o **CRUD de tickets** para garantir que o core do sistema esteja funcional.
+3. Adicione a **IA para respostas automáticas**, testando em sandbox.
+4. Construa o **dashboard de métricas**, conectando dados dos tickets e faturamento.
+5. Finalize com a **integração do Stripe**, garantindo que pagamentos e assinaturas funcionem corretamente.
+
+### 📝 Dicas
+
+- Use **branches feature/** para cada etapa.
+- Mantenha **commits claros e pequenos**.
+- Atualize o **README ou Docs** à medida que cada etapa é concluída.
+- Utilize o **CI/CD** configurado para garantir qualidade e consistência do código.
+
+<div align="center">
+🚀 Este roadmap ajuda o time a visualizar progresso e dependências, garantindo um desenvolvimento organizado e profissional!
+</div>
 
 ---
 
-## 🆘 Suporte
+## 📖 Documentação
 
-Para questões relacionadas ao projeto:
+Para detalhes sobre cada módulo e guias de desenvolvimento, consulte:
 
-- Consulte a documentação no código
-- Verifique as issues abertas
-- Simule discussões técnicas como em um time real
+- [Padrões de Desenvolvimento](./docs/DEVELOPMENT_GUIDELINES.md)
+- [Branch Strategy](./docs/BRANCH_STRATEGY.md)
+- [CI/CD Guide](./docs/CI_CD_GUIDE.md)
+- [Commit Messages](./docs/COMMIT_MESSAGES.md)
+- [API Client Guide](./docs/API_CLIENT_GUIDE.md)
+- [Formulários](./docs/FORMS_GUIDE.md)
+- [Tipos](./docs/TYPES_GUIDE.md)
 
 > Nota: Este projeto simula um ambiente de desenvolvimento profissional para aprendizado das práticas
 > e fluxos de trabalho de equipes de desenvolvimento.

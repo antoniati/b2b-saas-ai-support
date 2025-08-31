@@ -24,25 +24,59 @@ model Tenant {
 }
 
 model User {
-  id             String           @id @default(cuid())
-  name           String
-  email          String           @unique
-  password       String
-  role           Role             @default(USER)
-  tenantId       String?
-  tenant         Tenant?          @relation(fields: [tenantId], references: [id])
-  tickets        Ticket[]         @relation("TicketAssignee")
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  Ticket         Ticket[]
-  TicketResponse TicketResponse[]
+  id                    String                 @id @default(cuid())
+  name                  String
+  email                 String                 @unique
+  password              String
+  role                  Role                   @default(USER)
+  tenantId              String?
+  tenant                Tenant?                @relation(fields: [tenantId], references: [id])
+  tickets               Ticket[]               @relation("TicketAssignee")
+  isTwoFactorEnabled    Boolean                @default(false)
+  isEmailVerified       DateTime?
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  Ticket                Ticket[]
+  TicketResponse        TicketResponse[]
+  Plan                  Plan?                  @relation(fields: [planId], references: [id])
+  planId                String?
 }
 
-/// Roles de usuários
 enum Role {
   ADMIN
   AGENT
   USER
+}
+
+model Token {
+  id      String    @id @default(cuid())
+  email   String
+  token   String    @unique
+  type    TokenType @default(EMAIL_VERIFICATION)
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+enum TokenType {
+  EMAIL_VERIFICATION
+  RESET_PASSWORD
+  RECOVER_PASSWORD
+  TWO_FACTOR
+  LOGIN
+}
+
+model Plan {
+  id       String   @id @default(cuid())
+  name     PlanName @default(mensal)
+  features String[]
+
+  User User[]
+}
+
+enum PlanName {
+  mensal
+  anual
 }
 
 /// Tickets de suporte

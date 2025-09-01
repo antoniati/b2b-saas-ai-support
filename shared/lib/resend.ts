@@ -2,7 +2,7 @@
 
 import { Resend } from 'resend';
 
-import { SendEmailType } from '@/shared/types';
+import { SendEmailType } from '@/shared';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 

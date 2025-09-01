@@ -7,6 +7,7 @@ export const ERROR_MESSAGES = {
   INVALID_FIELDS: 'Existem campos inválidos. Verifique os dados e tente novamente.',
   INTERNAL_SERVER_ERROR: 'Erro interno do servidor. Contate o suporte se o problema persistir.',
   OPERATION_NOT_PERMITTED: 'Você não tem permissão para executar esta ação.',
+  REQUIRED_FIELD: 'Este campo é obrigatório.',
 
   // Usuário
   USER_CREATION_FAILED: 'Falha ao criar usuário.',
@@ -20,7 +21,8 @@ export const ERROR_MESSAGES = {
   EMAIL_INVALID: 'O endereço de email fornecido é inválido.',
   EMAIL_ALREADY_REGISTERED: 'Este email já está cadastrado.',
   EMAIL_VERIFICATION_UPDATE_FAILED: 'Falha ao atualizar a data de verificação do email.',
-  EMAIL_NOT_VERIFIED: 'Sua conta ainda não foi verificada. Por favor, confirme seu email antes de efetuar login.',
+  EMAIL_NOT_VERIFIED:
+    'Sua conta ainda não foi verificada. Por favor, confirme seu email antes de efetuar login.',
   CONFIRM_PASSWORD: 'As senhas informadas não coincidem.',
   PASSWORD_UPDATE_FAILED: 'Falha ao atualizar a senha.',
   PASSWORD_HASH_FAILED: 'Falha ao gerar hash da senha.',

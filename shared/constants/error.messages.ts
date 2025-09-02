@@ -27,6 +27,7 @@ export const ERROR_MESSAGES = {
   PASSWORD_UPDATE_FAILED: 'Falha ao atualizar a senha.',
   PASSWORD_HASH_FAILED: 'Falha ao gerar hash da senha.',
   WEAK_PASSWORD: 'Senha fraca. Combine letras, números e símbolos (ex.: Abc123!)',
+  EMAIL_SENDING_FAILED: 'Falha ao enviar email.',
 
   // Token
   INVALID_TOKEN: 'Token inválido.',
@@ -39,5 +40,10 @@ export const ERROR_MESSAGES = {
   NOT_MATCH_2FA_CODE: 'Código de verificação de dois fatores incorreto.',
 
   // Planos
-  NO_PLANS_FOUND: 'Nenhum plano encontrado.',
+  NO_PLAN_FOUND: 'Nenhum plano encontrado.',
+
+  // Prisma
+  INVALID_REFERENCE: 'Referência inválida.',
+  INVALID_INPUT: 'Entrada inválida.',
+  RELATION_CONFLICT: 'Conflicto de relacionamento.',
 };

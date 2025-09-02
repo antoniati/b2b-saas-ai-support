@@ -12,3 +12,4 @@ export * from './constants/error.messages';
 export * from './constants/success.messages';
 
 export * from './errors/domain.errors';
+export * from './errors/prisma.error.mapper';

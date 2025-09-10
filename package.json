@@ -21,8 +21,9 @@
     "db:studio": "prisma studio",
     "db:migrate": "prisma migrate dev",
     "generate:feature": "plop",
-    "test": "jest --testPathPatterns=\".*\\.test\\.ts$\"",
-    "test:all": "jest",
+    "test": "jest",
+    "test:spec": "jest --testPathPatterns=\".*\\.spec\\.ts$\"",
+    "test:ci": "jest --ci --coverage",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "type-check": "tsc --noEmit"

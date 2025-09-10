@@ -44,6 +44,12 @@ O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
 - Correções de lint em TypeScript (`no-explicit-any`, `no-empty-object-type`, arquivos vazios).
 
+- Ajustes adicionais nos workflows do GitHub Actions:
+  - Comandos de testes (`pnpm test`) corrigidos para suportar Jest com `.spec.ts`.
+  - Coverage e testes de integração com Postgres rodando sem falhas.
+  - Security Scan e Build corrigidos para não travar PRs.
+- Garantia de que todos os checks obrigatórios do CI/CD passam antes de merges.
+
 ---
 
 ## [0.1.0] - 22-09-2025

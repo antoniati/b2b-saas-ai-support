@@ -230,6 +230,51 @@ Uma estrutura clara de pastas reflete a mentalidade de “software escalável”
 
 - Maturidade em construir funcionalidades core que sustentam o produto.
 
+## 🛠 Capítulo 10 — Corrigindo CI, Testes e Security Scan
+
+**O que foi feito**
+
+- Ajustes no workflow do GitHub Actions (ci.yml) para que:
+  - pnpm test funcione corretamente com Jest em TypeScript.
+
+  - Coverage e testes de integração com Postgres rodem sem falhas.
+
+  - Security Scan e Build não quebrem o pipeline.
+
+- Correção de comandos no package.json:
+  - Substituição de jest --testPathPatterns=".\*\.test\.ts$" para suportar .spec.ts.
+
+  - Inclusão de --passWithNoTests quando necessário para evitar falhas falsas.
+
+- Testes locais rodando 100%:
+  - Unitários, integração, e cobertura (coverage) confirmadas.
+
+  - Push e PR para o GitHub garantindo que todos os checks obrigatórios passassem antes de iniciar novas features.
+
+**Erros e soluções**
+
+- Erros de “No tests found” → ajustados paths e regex do Jest.
+
+- Workflow do GitHub Actions falhando → alinhado comandos de teste e instalação de dependências.
+
+Security Scan travando PR → re-executado após ajustes de dependências.
+
+**📌 Aprendizado**
+
+É normal encontrar inconsistências entre ambiente local e CI/CD.
+
+Workflow de testes deve ser robusto e idempotente antes de qualquer merge.
+
+Documentar problemas e soluções fortalece conhecimento do time e facilita debugging futuro.
+
+**💡 O que isso demonstra**
+
+- Capacidade de diagnosticar e corrigir pipelines quebrados.
+
+- Disciplina em garantir que todas as etapas do CI/CD passem antes de continuar desenvolvimento.
+
+- Mentalidade de engenharia profissional: sempre resolver problemas de infraestrutura antes de implementar novas features.
+
 ### 🏆 Impacto Profissional
 
 - **Tech Lead Mindset** → estruturar projeto, CI/CD, automação e boas práticas.

@@ -6,14 +6,9 @@ on:
   pull_request:
     branches: [main, develop]
 
-env:
-  NODE_VERSION: "20"
-  PNPM_VERSION: "9"
-  DATABASE_URL: "postgres://postgres:postgres@localhost:5432/saasdb"
-
 jobs:
   # ---------------------------
-  # Lint, TypeCheck e Formatação
+  # Lint, typecheck e formatação
   # ---------------------------
   lint-and-typecheck:
     name: Lint & Type Check
@@ -26,12 +21,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: "20"
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: ${{ env.PNPM_VERSION }}
+          version: 9
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -75,12 +70,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: "20"
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: ${{ env.PNPM_VERSION }}
+          version: 9
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -91,12 +86,12 @@ jobs:
       - name: Run Prisma migrations
         run: pnpm exec prisma migrate deploy
         env:
-          DATABASE_URL: ${{ env.DATABASE_URL }}
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/saasdb
 
       - name: Run tests
         run: pnpm test -- --ci --coverage
         env:
-          DATABASE_URL: ${{ env.DATABASE_URL }}
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/saasdb
 
       - name: Upload coverage reports
         uses: codecov/codecov-action@v3
@@ -118,12 +113,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: "20"
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: ${{ env.PNPM_VERSION }}
+          version: 9
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -155,12 +150,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: "20"
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: ${{ env.PNPM_VERSION }}
+          version: 9
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -169,4 +164,4 @@ jobs:
         uses: actions/dependency-review-action@v4
 
       - name: Run pnpm audit
-        run: pnpm audit --audit-level=moderate || echo "Vulnerabilities de baixa severidade ignoradas"
+        run: pnpm audit --audit-level=moderate || echo "Vulnerabilidades de baixa severidade ignoradas"

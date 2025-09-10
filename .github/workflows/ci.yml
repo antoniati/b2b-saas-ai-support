@@ -7,7 +7,9 @@ on:
     branches: [main, develop]
 
 jobs:
-  # Job de qualidade de código e verificação de tipos
+  # ---------------------------
+  # Lint, typecheck e formatação
+  # ---------------------------
   lint-and-typecheck:
     name: Lint & Type Check
     runs-on: ubuntu-latest
@@ -19,7 +21,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
@@ -38,11 +40,28 @@ jobs:
       - name: Run Prettier check
         run: pnpm run format:check
 
-  # Job de testes
+  # ---------------------------
+  # Testes (unit + integração com Postgres real)
+  # ---------------------------
   test:
-    name: Run Tests
+    name: Run Tests (with Postgres)
     runs-on: ubuntu-latest
     needs: lint-and-typecheck
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: saasdb
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
     steps:
       - name: Checkout code
@@ -51,7 +70,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
@@ -61,15 +80,27 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Generate Prisma client
+        run: pnpm exec prisma generate
+
+      - name: Run Prisma migrations
+        run: pnpm exec prisma migrate deploy
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/saasdb
+
       - name: Run tests
         run: pnpm test -- --ci --coverage
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/saasdb
 
       - name: Upload coverage reports
         uses: codecov/codecov-action@v3
         with:
           file: ./coverage/lcov.info
 
-  # Job de build
+  # ---------------------------
+  # Build
+  # ---------------------------
   build:
     name: Build Project
     runs-on: ubuntu-latest
@@ -82,7 +113,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
@@ -104,7 +135,9 @@ jobs:
           name: build-output
           path: .next
 
-  # Security scanning (apenas em PRs)
+  # ---------------------------
+  # Security Scan (apenas em PRs)
+  # ---------------------------
   security-scan:
     name: Security Scan
     runs-on: ubuntu-latest
@@ -117,7 +150,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2

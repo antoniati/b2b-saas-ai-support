@@ -1,0 +1,78 @@
+import { renderHook, act } from '@testing-library/react';
+import { use{{pascalCase name}} } from '../hooks/use{{pascalCase name}}';
+import { {{pascalCase name}}Action } from '../server-actions/{{name}}-action';
+
+// Mock das actions
+jest.mock('../actions/{{name}}.action');
+
+describe('use{{pascalCase name}}', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('deve criar {{name}} com sucesso', async () => {
+    const mock{{pascalCase name}} = {
+      id: '1',
+      name: 'Test {{pascalCase name}}',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    ({{pascalCase name}}Action.create{{pascalCase name}} as jest.Mock).mockResolvedValue({
+      ok: true,
+      data: mock{{pascalCase name}},
+    });
+
+    const { result } = renderHook(() => use{{pascalCase name}}());
+
+    await act(async () => {
+      const created{{pascalCase name}} = await result.current.create{{pascalCase name}}({
+        name: 'Test {{pascalCase name}}',
+      });
+
+      expect(created{{pascalCase name}}).toEqual(mock{{pascalCase name}});
+      expect(result.current.error).toBeNull();
+    });
+  });
+
+  it('deve lidar com erro ao criar {{name}}', async () => {
+    ({{pascalCase name}}Action.create{{pascalCase name}} as jest.Mock).mockResolvedValue({
+      ok: false,
+      message: 'Erro ao criar {{name}}',
+    });
+
+    const { result } = renderHook(() => use{{pascalCase name}}());
+
+    await act(async () => {
+      await expect(result.current.create{{pascalCase name}}({ name: 'Test' }))
+        .rejects.toThrow('Erro ao criar {{name}}');
+
+      expect(result.current.error).toBe('Erro ao criar {{name}}');
+    });
+  });
+
+  it('deve limpar erro', async () => {
+    ({{pascalCase name}}Action.create{{pascalCase name}} as jest.Mock).mockResolvedValue({
+      ok: false,
+      message: 'Erro ao criar {{name}}',
+    });
+
+    const { result } = renderHook(() => use{{pascalCase name}}());
+
+    await act(async () => {
+      try {
+        await result.current.create{{pascalCase name}}({ name: 'Test' });
+      } catch {
+        // Ignora o erro
+      }
+    });
+
+    expect(result.current.error).toBe('Erro ao criar {{name}}');
+
+    await act(async () => {
+      result.current.clearError();
+    });
+
+    expect(result.current.error).toBeNull();
+  });
+});

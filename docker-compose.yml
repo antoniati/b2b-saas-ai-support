@@ -1,0 +1,27 @@
+services:
+  saas_postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: saasdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - saas_postgres_data:/var/lib/postgresql/data
+
+  saas_app:
+    build: .
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+    environment:
+      DATABASE_URL: "postgres://postgres:postgres@saas_postgres:5432/saasdb"
+      NODE_ENV: development
+    depends_on:
+      - saas_postgres
+    ports:
+      - "3000:3000"
+
+volumes:
+  saas_postgres_data:

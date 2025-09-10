@@ -1,5 +1,5 @@
-import { handleApiResponse } from '@/shared';
-import { AuthAction } from '@/features/users';
+import { handleApiResponse } from "@/shared";
+import { AuthAction } from "@/features/auth";
 
 /** API para completar o registro */
 export async function POST(req: Request) {

@@ -1,15 +1,13 @@
-export * from './types/action.type';
-export * from './types/mails.type';
-export * from './types/api.type';
-
-export * from './lib/prisma';
-
-export * from './utils/action.utils';
-export * from './utils/validation.utils';
-export * from './utils/api.utils';
-
-export * from './constants/error.messages';
-export * from './constants/success.messages';
-
-export * from './errors/domain.errors';
-export * from './errors/prisma.error.mapper';
+export * from "./lib/prisma";
+export * from "./types/api-type";
+export * from "./types/action-type";
+export * from "./services/password-service";
+export * from "./utils/action-utils";
+export * from "./utils/validation-utils";
+export * from "./utils/api-utils";
+export * from "./constants/error-messages";
+export * from "./constants/success-messages";
+export * from "./errors/domain-errors";
+export * from "./errors/prisma-error-mapper";
+export * from "./errors/forbidden-errors";
+export * from "./errors/unauthorized-errors";

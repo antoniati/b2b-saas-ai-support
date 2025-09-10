@@ -12,8 +12,10 @@
 ## Checklist
 
 - [ ] Meu código segue as guidelines do projeto
-- [ ] Executei `npm run lint` e não há erros
-- [ ] Executei `npm test` e todos passam
+- [ ] Exeutei `pnpm run format:check` e não há erros
+- [ ] Executei `pnpm run lint` e não há erros
+- [ ] Executei `pnpm run type-check` e não há erros
+- [ ] Executei `pnpm test:all` e todos passam
 - [ ] Adicionei testes que provam que minha fix é eficaz
 - [ ] Adicionei documentação necessária
 - [ ] Atualizei o CHANGELOG.md

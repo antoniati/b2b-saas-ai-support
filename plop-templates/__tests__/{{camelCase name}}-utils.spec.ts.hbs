@@ -1,0 +1,103 @@
+import {
+  validate{{pascalCase name}},
+  format{{pascalCase name}},
+  filter{{pascalCase name}}s,
+  sort{{pascalCase name}}s,
+  get{{pascalCase name}}Stats,
+  {{name}}Validators,
+} from '../utils/{{name}}-utils';
+
+describe('{{pascalCase name}}Utils', () => {
+  const mock{{pascalCase name}}: any = {
+    id: '1',
+    name: 'Test {{pascalCase name}}',
+    createdAt: new Date('2024-01-01'),
+    updatedAt: new Date('2024-01-02'),
+  };
+
+  const mock{{pascalCase name}}s: any[] = [
+    { id: '1', name: 'Alpha', createdAt: new Date('2024-01-01'), updatedAt: new Date('2024-01-02') },
+    { id: '2', name: 'Beta', createdAt: new Date('2024-01-03'), updatedAt: new Date('2024-01-04') },
+    { id: '3', name: 'Gamma', createdAt: new Date('2024-01-05'), updatedAt: new Date('2024-01-06') },
+  ];
+
+  describe('validate{{pascalCase name}}', () => {
+    it('deve validar {{name}} completo', () => {
+      expect(validate{{pascalCase name}}(mock{{pascalCase name}})).toBe(true);
+    });
+
+    it('deve invalidar {{name}} sem nome', () => {
+      expect(validate{{pascalCase name}}({ ...mock{{pascalCase name}}, name: '' })).toBe(false);
+    });
+
+    it('deve invalidar {{name}} sem ID', () => {
+      expect(validate{{pascalCase name}}({ ...mock{{pascalCase name}}, id: '' })).toBe(false);
+    });
+  });
+
+  describe('format{{pascalCase name}}', () => {
+    it('deve formatar {{name}} corretamente', () => {
+      expect(format{{pascalCase name}}(mock{{pascalCase name}})).toBe(
+        '{{pascalCase name}}: Test {{pascalCase name}} (ID: 1)',
+      );
+    });
+  });
+
+  describe('filter{{pascalCase name}}s', () => {
+    it('deve filtrar {{name}}s por termo de busca', () => {
+      const filtered = filter{{pascalCase name}}s(mock{{pascalCase name}}s, 'alpha');
+      expect(filtered).toHaveLength(1);
+      expect(filtered[0].name).toBe('Alpha');
+    });
+
+    it('deve retornar todos os {{name}}s quando searchTerm estiver vazio', () => {
+      const filtered = filter{{pascalCase name}}s(mock{{pascalCase name}}s, '');
+      expect(filtered).toHaveLength(3);
+    });
+  });
+
+  describe('sort{{pascalCase name}}s', () => {
+    it('deve ordenar {{name}}s por nome asc', () => {
+      const sorted = sort{{pascalCase name}}s(mock{{pascalCase name}}s, 'name', 'asc');
+      expect(sorted[0].name).toBe('Alpha');
+      expect(sorted[2].name).toBe('Gamma');
+    });
+
+    it('deve ordenar {{name}}s por nome desc', () => {
+      const sorted = sort{{pascalCase name}}s(mock{{pascalCase name}}s, 'name', 'desc');
+      expect(sorted[0].name).toBe('Gamma');
+      expect(sorted[2].name).toBe('Alpha');
+    });
+  });
+
+  describe('get{{pascalCase name}}Stats', () => {
+    it('deve calcular estatísticas corretamente', () => {
+      const stats = get{{pascalCase name}}Stats(mock{{pascalCase name}}s);
+      expect(stats.total).toBe(3);
+      expect(stats.oldest?.id).toBe('1');
+      expect(stats.newest?.id).toBe('3');
+    });
+
+    it('deve lidar com array vazio', () => {
+      const stats = get{{pascalCase name}}Stats([]);
+      expect(stats.total).toBe(0);
+      expect(stats.oldest).toBeNull();
+      expect(stats.newest).toBeNull();
+    });
+  });
+
+  describe('{{name}}Validators', () => {
+    it('deve validar nome correto', () => {
+      expect({{name}}Validators.isValidName('Valid Name')).toBe(true);
+    });
+
+    it('deve invalidar nome muito curto', () => {
+      expect({{name}}Validators.isValidName('A')).toBe(false);
+    });
+
+    it('deve invalidar nome muito longo', () => {
+      const longName = 'A'.repeat(101);
+      expect({{name}}Validators.isValidName(longName)).toBe(false);
+    });
+  });
+});

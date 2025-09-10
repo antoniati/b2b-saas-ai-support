@@ -79,7 +79,12 @@ Sempre use `ActionResponse<T>` como retorno de APIs/mutations:
 ```ts
 export type ActionResponse<TData = unknown> =
   | { ok: true; status: number; message?: string; data?: TData }
-  | { ok: false; status: number; message: string; errors?: Record<string, string> };
+  | {
+      ok: false;
+      status: number;
+      message: string;
+      errors?: Record<string, string>;
+    };
 ```
 
 Limpe mensagens do form ao abrir ou trocar de formulário:
@@ -91,7 +96,7 @@ cleanMessages();
 Invalide queries quando o form alterar dados compartilhados:
 
 ```ts
-invalidateQueries: ['users', 'products'];
+invalidateQueries: ["users", "products"];
 ```
 
 Evite lógica de negócio nos `hooks`; foque apenas em state do form, mensagens e integração com mutation.

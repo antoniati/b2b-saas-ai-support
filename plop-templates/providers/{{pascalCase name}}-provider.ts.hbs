@@ -1,0 +1,59 @@
+'use client';
+
+import React from 'react';
+import { {{pascalCase name}}Provider as Base{{pascalCase name}}Provider } from '../contexts/{{pascalCase name}}-context';
+
+interface {{pascalCase name}}ProviderProps {
+  children: React.ReactNode;
+  initialData?: {
+    current{{pascalCase name}}?: any;
+    {{name}}s?: any[];
+  };
+}
+
+/**
+ * Provider principal para a feature {{pascalCase name}}
+ * 
+ * Este provider encapsula toda a lógica de estado e operações da feature {{name}},
+ * proporcionando um acesso fácil através do hook use{{pascalCase name}}.
+ * 
+ * @example
+ * ```tsx
+ * <{{pascalCase name}}Provider>
+ *   <MyComponent />
+ * </{{pascalCase name}}Provider>
+ * ```
+ */
+export const {{pascalCase name}}Provider: React.FC<{{pascalCase name}}ProviderProps> = ({ 
+  children, 
+  initialData 
+}) => {
+  return (
+    <Base{{pascalCase name}}Provider 
+      initial{{pascalCase name}}s={initialData?.{{name}}s || []}
+    >
+      {children}
+    </Base{{pascalCase name}}Provider>
+  );
+};
+
+/**
+ * High-Order Component para injetar o {{pascalCase name}}Provider
+ * 
+ * @example
+ * ```tsx
+ * const EnhancedComponent = with{{pascalCase name}}Provider(MyComponent);
+ * ```
+ */
+export const with{{pascalCase name}}Provider = <P extends object>(
+  WrappedComponent: React.ComponentType<P>
+): React.FC<P> => {
+  const WithProvider: React.FC<P> = (props) => (
+    <{{pascalCase name}}Provider>
+      <WrappedComponent {...props} />
+    </{{pascalCase name}}Provider>
+  );
+  
+  WithProvider.displayName = `with{{pascalCase name}}Provider(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
+  return WithProvider;
+};

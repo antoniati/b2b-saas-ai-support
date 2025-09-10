@@ -1,0 +1,150 @@
+import { useState, useCallback } from 'react';
+import { {{pascalCase name}}Data } from '../types/{{name}}-types';
+import { {{pascalCase name}}Action } from '../actions/{{name}}-action';
+
+export const use{{pascalCase name}} = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [success, setSuccess] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const create{{pascalCase name}} = useCallback(async (values: Omit<{{pascalCase name}}Data, 'id' | 'createdAt' | 'updatedAt'>) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const result = await {{pascalCase name}}Action.create{{pascalCase name}}(values);
+      if (!result.ok) {
+        setError(result.message);
+      }
+      setSuccess(result.message);
+      return result.data;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erro ao criar {{name}}');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const get{{pascalCase name}}ById = useCallback(async (id: string) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const result = await {{pascalCase name}}Action.get{{pascalCase name}}ById(id);
+      if (!result.ok) {
+        setError(result.message);
+      }
+      setSuccess(result.message);
+      return result.data;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erro ao buscar {{name}}');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const getAll{{pascalCase name}}s = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const result = await {{pascalCase name}}Action.getAll{{pascalCase name}}s();
+      if (!result.ok) {
+        setError(result.message);
+      }
+      setSuccess(result.message);
+      return result.data;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erro ao listar {{name}}s');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const update{{pascalCase name}} = useCallback(async (id: string, values: Partial<{{pascalCase name}}Data>) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const result = await {{pascalCase name}}Action.update{{pascalCase name}}(id, values);
+      if (!result.ok) {
+        setError(result.message);
+      }
+      setSuccess(result.message);
+      return result.data;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erro ao atualizar {{name}}');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const delete{{pascalCase name}} = useCallback(async (id: string) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const result = await {{pascalCase name}}Action.delete{{pascalCase name}}(id);
+      if (!result.ok) {
+        setError(result.message);
+      }
+      setSuccess(result.message);
+      return result.data;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erro ao deletar {{name}}');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const clearError = useCallback(() => {
+    setError(null);
+  }, []);
+
+  return {
+    loading,
+    error,
+    success,
+    create{{pascalCase name}},
+    get{{pascalCase name}}ById,
+    getAll{{pascalCase name}}s,
+    update{{pascalCase name}},
+    delete{{pascalCase name}},
+    clearError,
+  };
+};
+
+// Hook para operações em lote
+export const use{{pascalCase name}}Batch = () => {
+  const [batchLoading, setBatchLoading] = useState<boolean>(false);
+  const [batchError, setBatchError] = useState<string | null>(null);
+
+  const create{{pascalCase name}}s = useCallback(async (items: Omit<{{pascalCase name}}Data, 'id' | 'createdAt' | 'updatedAt'>[]) => {
+    try {
+      setBatchLoading(true);
+      setBatchError(null);
+      
+      const results = await Promise.all(
+        items.map(item => {{pascalCase name}}Action.create{{pascalCase name}}(item))
+      );
+
+      const errors = results.filter(result => !result.ok);
+      if (errors.length > 0) {
+        setError(`Falha ao criar ${errors.length} {{name}}s`);
+      }
+
+      return results.map(result => result.data);
+    } catch (err) {
+      setBatchError(err instanceof Error ? err.message : 'Erro em lote ao criar {{name}}s');
+      throw err;
+    } finally {
+      setBatchLoading(false);
+    }
+  }, []);
+
+  return {
+    batchLoading,
+    batchError,
+    create{{pascalCase name}}s,
+  };
+};

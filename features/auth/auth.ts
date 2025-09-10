@@ -1,7 +1,20 @@
-import { PrismaAdapter } from '@auth/prisma-adapter';
-import NextAuth from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import { prismaClient } from '@/shared/lib/prisma';
+import NextAuth from "next-auth"; // Importando o pacote NextAuth para a autenticação.
+import { PrismaAdapter } from "@auth/prisma-adapter"; // Importando o adaptador Prisma para a persistência de dados.
+
+import prismaClient from "@/shared/lib/prisma"; // Importando a instância do Prisma Client.
+import {
+  jwtCallback,
+  linkAccountEvent,
+  sessionCallback,
+  signInCallback,
+} from "@/features/auth"; // Importando os callbacks de autenticação.
+
+/**
+ *  ⚠️ Atenção: Importar authConfig sempre do caminho completo,
+ *  para garantir que ele seja carregado corretamente.
+ *  Evitando erro de referências circulares.
+ * */
+import authConfig from "@/features/auth/config/auth-config";
 
 /**
  * Configuração de autenticação utilizando NextAuth.
@@ -18,35 +31,84 @@ import { prismaClient } from '@/shared/lib/prisma';
  *
  * @module Authentication
  */
-export const authOptions = {
-  adapter: PrismaAdapter(prismaClient),
-  providers: [
-    CredentialsProvider({
-      name: 'Credentials',
-      credentials: { email: {}, password: {} },
-      async authorize(credentials) {
-        console.log('Placeholder authorize', credentials?.email);
-        return { id: 'placeholder-id', email: credentials?.email };
-      },
-    }),
-  ],
-  callbacks: {
-    signIn: async (user: any) => {
-      console.log('Placeholder signIn callback', user);
-      return true;
-    },
-    session: async ({ session }: { session: any }) => {
-      console.log('Placeholder session callback', session);
-      return session;
-    },
-    jwt: async ({ token }: { token: any }) => {
-      console.log('Placeholder JWT callback', token);
-      return token;
-    },
-  },
-  session: { strategy: 'jwt' as const },
-  pages: { signIn: '/auth/signin' },
-};
 
-const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
+/**
+ * Configuração e exportação do NextAuth com as páginas personalizadas, adaptador Prisma,
+ * e os callbacks necessários para os processos de autenticação.
+ *
+ * @constant
+ * @type {Object}
+ * @property {Function} GET - Handler para a requisição GET (usado para login, etc.).
+ * @property {Function} POST - Handler para a requisição POST (usado para criação de sessão, etc.).
+ * @property {Object} auth - Configuração de autenticação do NextAuth.
+ * @property {Function} signIn - Função para iniciar a autenticação do usuário.
+ * @property {Function} signOut - Função para finalizar a autenticação do usuário.
+ */
+export const {
+  handlers: { GET, POST },
+  auth,
+  signIn,
+  signOut,
+} = NextAuth({
+  /**
+   * Define as páginas personalizadas de autenticação, como páginas de login, erro, etc.
+   *
+   * @see authPages
+   */
+  pages: {
+    signIn: "/auth/login",
+    signOut: "auth/logout",
+  },
+
+  /**
+   * Define os eventos que serão disparados durante o processo de autenticação, como
+   * o evento de vinculação de conta.
+   *
+   * @see linkAccountEvent
+   */
+  events: { linkAccount: linkAccountEvent },
+
+  /**
+   * Configuração dos callbacks que manipulam eventos específicos durante a autenticação.
+   *
+   * - **signIn**: Callback executado após o login do usuário.
+   * - **session**: Callback executado para gerar uma sessão do usuário.
+   * - **jwt**: Callback para manipular o token JWT.
+   *
+   * @see signInCallback
+   * @see sessionCallback
+   * @see jwtCallback
+   */
+  callbacks: {
+    signIn: signInCallback,
+    session: sessionCallback,
+    jwt: jwtCallback,
+  },
+
+  /**
+   * Utiliza o PrismaAdapter para persistir dados de autenticação no banco de dados,
+   * garantindo a integração com o banco de dados utilizando o cliente Prisma.
+   *
+   * @see PrismaAdapter
+   * @see prismaClient
+   */
+  adapter: PrismaAdapter(prismaClient),
+
+  /**
+   * Define a estratégia de sessão a ser utilizada, no caso, a estratégia "jwt" é usada
+   * para armazenar a sessão no próprio token JWT.
+   *
+   * @type {Object}
+   * @property {string} strategy - A estratégia de armazenamento da sessão.
+   */
+  session: { strategy: "jwt" },
+
+  /**
+   * Configurações adicionais de autenticação (como regras de validação de usuários,
+   * configurações de segurança, etc.) são aplicadas a partir do arquivo de configuração
+   * `authConfig`.
+   *
+   * @see authConfig
+   */
+  ...authConfig,
+});

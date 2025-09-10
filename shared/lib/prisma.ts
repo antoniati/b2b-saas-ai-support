@@ -1,35 +1,37 @@
-import { PrismaClient } from '@prisma/client';
-/**
- * Declaração global para a variável `prisma`, que pode ser usada em qualquer lugar no código
- * para acessar a instância do cliente Prisma.
- * A variável é definida globalmente para garantir que a mesma instância do cliente Prisma
- * seja reutilizada durante o ciclo de vida da aplicação.
- *
- * @global
- * @type {PrismaClient | undefined}
- */
+// Importa a classe PrismaClient do Prisma para lidar com o banco de dados
+import { PrismaClient } from "@prisma/client";
+
+// Importa a classe TenantRequestContext para lidar com o contexto do tenant
+import { TenantRequestContext } from "@/features/tenants/contexts/tenants-context";
+
+// Declara uma variável global chamada "prisma" para o PrismaClient
 declare global {
   var prisma: PrismaClient | undefined;
 }
 
-/**
- * Criação ou reutilização de uma instância do PrismaClient.
- *
- * A variável `prismaClient` é usada para garantir que a aplicação utilize uma única instância
- * do PrismaClient durante o desenvolvimento e produção. No ambiente de produção, a instância do
- * PrismaClient é criada apenas uma vez, e em ambientes não-produção, ela é armazenada globalmente
- * para evitar múltiplas instâncias sendo criadas em cada requisição.
- *
- * @type {PrismaClient}
- */
-export const prismaClient = globalThis.prisma || new PrismaClient();
+// Cria uma instância do PrismaClient ou retorna a instância global
+const prismaClient = globalThis.prisma || new PrismaClient();
 
-/**
- * No ambiente de desenvolvimento (não produção), a instância do PrismaClient é armazenada globalmente
- * para permitir o reuso entre as requisições e evitar a criação de múltiplas instâncias.
- *
- * @note Essa abordagem não deve ser utilizada em produção, pois pode gerar problemas de vazamento de memória.
- *
- * @see PrismaClient
- */
-if (process.env.NODE_ENV !== 'production') globalThis.prisma = prismaClient;
+// Verifica se estamos em ambiente de desenvolvimento
+if (process.env.NODE_ENV !== "test") {
+  // Configura o Prisma para usar o contexto do tenant
+  (prismaClient as any).$use(async (params: any, next: any) => {
+    const context = TenantRequestContext.get(); // Obtem o contexto do tenant
+
+    // Se o contexto do tenant existir, define a variável de configuração "app.tenant_id"
+    if (context?.tenantId) {
+      await prismaClient.$executeRaw`
+        SELECT set_config('app.tenant_id', ${context.tenantId}, true)
+      `;
+    }
+
+    // Chama a função "next" para executar o prisma query
+    return next(params);
+  });
+}
+
+// Se estamos em ambiente de desenvolvimento, define a variável global "prisma"
+if (process.env.NODE_ENV !== "production") globalThis.prisma = prismaClient;
+
+// Exporta a instância do PrismaClient
+export default prismaClient;

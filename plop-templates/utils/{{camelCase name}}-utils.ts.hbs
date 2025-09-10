@@ -1,0 +1,340 @@
+/**
+ * Utilitários para a feature {{pascalCase name}}
+ * 
+ * Este arquivo contém funções utilitárias genéricas para manipulação de dados,
+ * formatação, validações e outras operações comuns relacionadas a {{name}}.
+ */
+
+import { {{pascalCase name}}Data, {{pascalCase name}}FormValues } from '../types/{{name}}-types';
+
+/**
+ * Valida se um objeto {{name}} está completo e válido
+ */
+export const validate{{pascalCase name}} = ({{name}}: Partial<{{pascalCase name}}Data>): boolean => {
+  if (!{{name}}?.id) return false;
+  if (!{{name}}?.name || {{name}}.name.trim().length === 0) return false;
+  if (!{{name}}?.createdAt || !({{name}}.createdAt instanceof Date)) return false;
+  return true;
+};
+
+/**
+ * Formata os dados do {{name}} para exibição
+ */
+export const format{{pascalCase name}} = ({{name}}: {{pascalCase name}}Data): string => {
+  return `{{pascalCase name}}: ${{name}}.name} (ID: {{name}}.id})`;
+};
+
+/**
+ * Filtra {{name}}s baseado em um termo de busca
+ */
+export const filter{{pascalCase name}}s = (
+  {{name}}s: {{pascalCase name}}Data[], 
+  searchTerm: string
+): {{pascalCase name}}Data[] => {
+  if (!searchTerm.trim()) return {{name}}s;
+  
+  const term = searchTerm.toLowerCase().trim();
+  return {{name}}s.filter({{name}} =>
+    {{name}}.name.toLowerCase().includes(term) ||
+    {{name}}.id.toLowerCase().includes(term)
+  );
+};
+
+/**
+ * Ordena {{name}}s por diferentes critérios
+ */
+export const sort{{pascalCase name}}s = (
+  {{name}}s: {{pascalCase name}}Data[], 
+  sortBy: 'name' | 'createdAt' | 'updatedAt' = 'name',
+  order: 'asc' | 'desc' = 'asc'
+): {{pascalCase name}}Data[] => {
+  return [...{{name}}s].sort((a, b) => {
+    let valueA: any = a[sortBy];
+    let valueB: any = b[sortBy];
+
+    if (sortBy === 'createdAt' || sortBy === 'updatedAt') {
+      valueA = new Date(valueA).getTime();
+      valueB = new Date(valueB).getTime();
+    }
+
+    if (typeof valueA === 'string') {
+      valueA = valueA.toLowerCase();
+      valueB = valueB.toLowerCase();
+    }
+
+    if (valueA < valueB) return order === 'asc' ? -1 : 1;
+    if (valueA > valueB) return order === 'asc' ? 1 : -1;
+    return 0;
+  });
+};
+
+/**
+ * Normaliza os dados do formulário para o formato do banco
+ */
+export const normalize{{pascalCase name}}Form = (
+  values: {{pascalCase name}}FormValues
+): Omit<{{pascalCase name}}Data, 'id' | 'createdAt' | 'updatedAt'> => {
+  return {
+    name: values.name.trim(),
+    // Adicione outros campos de normalização conforme necessário
+  };
+};
+
+/**
+ * Calcula estatísticas dos {{name}}s
+ */
+export const get{{pascalCase name}}Stats = ({{name}}s: {{pascalCase name}}Data[]): {
+  total: number;
+  recentCount: number;
+  oldest: {{pascalCase name}}Data | null;
+  newest: {{pascalCase name}}Data | null;
+} => {
+  if ({{name}}s.length === 0) {
+    return {
+      total: 0,
+      recentCount: 0,
+      oldest: null,
+      newest: null,
+    };
+  }
+
+  const sortedByDate = sort{{pascalCase name}}s({{name}}s, 'createdAt', 'desc');
+  const oneWeekAgo = new Date();
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+  return {
+    total: {{name}}s.length,
+    recentCount: {{name}}s.filter({{name}} => 
+      new Date({{name}}.createdAt) > oneWeekAgo
+    ).length,
+    oldest: sortedByDate[sortedByDate.length - 1],
+    newest: sortedByDate[0],
+  };
+};
+
+/**
+ * Converte {{name}} para diferentes formatos (JSON, CSV, etc.)
+ */
+export const export{{pascalCase name}} = (
+  {{name}}: {{pascalCase name}}Data, 
+  format: 'json' | 'csv' = 'json'
+): string => {
+  switch (format) {
+    case 'json':
+      return JSON.stringify({{name}}, null, 2);
+    
+    case 'csv':
+      return `id,name,createdAt,updatedAt\n${{name}}.id},${{name}}.name},${{name}}.createdAt.toISOString()},${{name}}.updatedAt.toISOString()}`;
+    
+    default:
+      return JSON.stringify({{name}});
+  }
+};
+
+/**
+ * Função debounce para operações de busca/filtro
+ */
+export const debounce = <T extends (...args: any[]) => any>(
+  func: T,
+  wait: number
+): ((...args: Parameters<T>) => void) => {
+  let timeout: NodeJS.Timeout;
+  
+  return (...args: Parameters<T>) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), wait);
+  };
+};
+
+/**
+ * Cache simples para operações com {{name}}s
+ */
+export const create{{pascalCase name}}Cache = () => {
+  const cache = new Map<string, {{pascalCase name}}Data>();
+  const timestamp = new Map<string, number>();
+  const TTL = 5 * 60 * 1000; // 5 minutos
+
+  return {
+    get: (id: string): {{pascalCase name}}Data | null => {
+      const item = cache.get(id);
+      const itemTimestamp = timestamp.get(id);
+      
+      if (!item || !itemTimestamp) return null;
+      
+      // Verifica se o cache expirou
+      if (Date.now() - itemTimestamp > TTL) {
+        cache.delete(id);
+        timestamp.delete(id);
+        return null;
+      }
+      
+      return item;
+    },
+    
+    set: (id: string, data: {{pascalCase name}}Data): void => {
+      cache.set(id, data);
+      timestamp.set(id, Date.now());
+    },
+    
+    clear: (id?: string): void => {
+      if (id) {
+        cache.delete(id);
+        timestamp.delete(id);
+      } else {
+        cache.clear();
+        timestamp.clear();
+      }
+    },
+    
+    has: (id: string): boolean => {
+      return cache.has(id) && timestamp.has(id);
+    }
+  };
+};
+
+/**
+ * Utilitários de formatação de dados para UI
+ */
+export const {{name}}Formatters = {
+  formatDate: (date: Date): string => {
+    return new Intl.DateTimeFormat('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    }).format(date);
+  },
+  
+  truncateText: (text: string, maxLength: number = 50): string => {
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength) + '...';
+  },
+  
+  formatStatus: (status: string): string => {
+    const statusMap: Record<string, string> = {
+      active: 'Ativo',
+      inactive: 'Inativo',
+      pending: 'Pendente',
+      completed: 'Concluído',
+    };
+    
+    return statusMap[status] || status;
+  }
+};
+
+/**
+ * Validações específicas para {{name}}
+ */
+export const {{name}}Validators = {
+  isValidName: (name: string): boolean => {
+    return name.length >= 2 && name.length <= 100;
+  },
+  
+  isValidDescription: (description: string): boolean => {
+    return description.length <= 500;
+  },
+  
+  // Adicione outras validações específicas aqui
+};
+
+/**
+ * Hook utilities para operações comuns
+ */
+export const use{{pascalCase name}}Utils = () => {
+  const generate{{pascalCase name}}Code = (): string => {
+    return `{{upperCase name}}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  };
+  
+  const generate{{pascalCase name}}Slug = (name: string): string => {
+    return name
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)+/g, '');
+  };
+  
+  return {
+    generate{{pascalCase name}}Code,
+    generate{{pascalCase name}}Slug,
+  };
+};
+
+// Tipos utilitários específicos para {{name}}
+export type {{pascalCase name}}Filters = {
+  search?: string;
+  status?: string;
+  dateFrom?: Date;
+  dateTo?: Date;
+};
+
+export type {{pascalCase name}}SortOptions = {
+  field: 'name' | 'createdAt' | 'updatedAt';
+  order: 'asc' | 'desc';
+};
+
+/**
+ * Função para aplicar múltiplos filtros e ordenação
+ */
+export const apply{{pascalCase name}}Filters = (
+  {{name}}s: {{pascalCase name}}Data[],
+  filters: {{pascalCase name}}Filters,
+  sortOptions?: {{pascalCase name}}SortOptions
+): {{pascalCase name}}Data[] => {
+  let filtered = {{name}}s;
+
+  // Aplicar filtro de busca
+  if (filters.search) {
+    filtered = filter{{pascalCase name}}s(filtered, filters.search);
+  }
+
+  // Aplicar filtro de status
+  if (filters.status) {
+    filtered = filtered.filter({{name}} => 
+      // @ts-ignore - ajuste conforme sua estrutura
+      {{name}}.status === filters.status
+    );
+  }
+
+  // Aplicar filtro de data
+  if (filters.dateFrom) {
+    filtered = filtered.filter({{name}} => 
+      new Date({{name}}.createdAt) >= filters.dateFrom!
+    );
+  }
+
+  if (filters.dateTo) {
+    filtered = filtered.filter({{name}} => 
+      new Date({{name}}.createdAt) <= filters.dateTo!
+    );
+  }
+
+  // Aplicar ordenação
+  if (sortOptions) {
+    filtered = sort{{pascalCase name}}s(
+      filtered, 
+      sortOptions.field, 
+      sortOptions.order
+    );
+  }
+
+  return filtered;
+};
+
+// Exportação padrão com todos os utilitários
+export default {
+  validate{{pascalCase name}},
+  format{{pascalCase name}},
+  filter{{pascalCase name}}s,
+  sort{{pascalCase name}}s,
+  normalize{{pascalCase name}}Form,
+  get{{pascalCase name}}Stats,
+  export{{pascalCase name}},
+  debounce,
+  create{{pascalCase name}}Cache,
+  {{name}}Formatters,
+  {{name}}Validators,
+  use{{pascalCase name}}Utils,
+  apply{{pascalCase name}}Filters,
+};

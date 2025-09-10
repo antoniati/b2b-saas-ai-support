@@ -1,58 +1,69 @@
-import { auth } from '@/features/users/auth/auth';
+import {
+  TenantRepository,
+  TenantRequestContext,
+  extractSlugFromDomain,
+} from "@/features/tenants";
 
 import {
+  auth,
   apiAuthPrefix,
   authRoutes,
+  handleAuthRoute,
+  handlePrivateRoute,
   publicRoutes,
-} from '@/features/users/auth/config/routes.config';
-import { shouldBypassAuth } from '@/features/users/auth/utils/ignore.routes';
-import { handlePrivateRoute } from '@/features/users/auth/utils/private.routes';
-import { handleAuthRoute } from '@/features/users/auth/utils/auth.routes';
+  shouldBypassAuth,
+} from "@/features/auth";
 
 /**
  * Middleware de autenticação
  */
-export default auth((req: any) => {
-  const isLoggedIn = !!req.auth; // Verifica se o usuário está logado
-  const pathname = req.nextUrl.pathname; // Obtem o caminho da URL
+export default auth(async (req: any) => {
+  const pathname = req.nextUrl.pathname; // URL da requisição, sem domínio
+  const hostname = req.nextUrl.hostname; // Domínio da requisição, sem prcotocolo
+  const session = req.auth; // Sessão da requisição, contendo os dados do usuário
 
-  const isApiAuthRoute = pathname.startsWith(apiAuthPrefix); // Verifica se a rota é de autenticação
+  const isLoggedIn = !!session; // Verifica se o usuário está logado
+  const isApiAuthRoute = pathname.startsWith(apiAuthPrefix); // Verifica se a rota é de autenticação da API
   const isPublicRoute = publicRoutes.includes(pathname); // Verifica se a rota é pública
   const isAuthRoute = authRoutes.includes(pathname); // Verifica se a rota é de autenticação
 
-  try {
-    // Verifica se a rota precisa ser protegida
-    if (shouldBypassAuth(pathname)) {
-      return;
-    }
+  // Extrair os dados do tenant da sessão
+  let tenantId = session?.user?.tenantId || null;
+  const userId = session?.user?.id || null;
 
-    // Permitir rotas de API de autenticação
-    if (isApiAuthRoute) {
-      return;
-    }
+  // Se não houver tenant na sessão, buscar pelo domínio
+  if (!tenantId) {
+    const slug = extractSlugFromDomain(hostname); // Extrair o slug do domínio
 
-    // Permitir rotas públicas como "/carrinho"
-    if (isPublicRoute) {
-      return;
+    // Se houver slug, buscar o tenant
+    if (slug) {
+      try {
+        const tenant = await TenantRepository.findBySlug(slug);
+        tenantId = tenant?.id; // Definir o tenantId
+      } catch (error) {
+        console.error("Erro ao buscar tenant por slug:", error);
+      }
     }
-
-    // Verifica se a rota é de autenticação e se o usuário está logado
-    if (isAuthRoute) {
-      return handleAuthRoute(req, isLoggedIn);
-    }
-
-    // Se não está logado e a rota não é pública, redirecionar para login
-    if (!isLoggedIn) {
-      return handlePrivateRoute(req, req.nextUrl);
-    }
-  } catch {
-    // Para rotas inexistentes, o Next.js renderiza a página 404
-    return;
   }
 
-  return;
+  // Criar contexto da requisição
+  const context = { tenantId, userId };
+
+  return TenantRequestContext.run(context, () => {
+    try {
+      if (shouldBypassAuth(pathname)) return; // Verifica se a rota deve ignorar a autenticação
+      if (isApiAuthRoute) return; // Verifica se a rota é de autenticação da API
+      if (isPublicRoute) return; // Verifica se a rota é pública
+      if (isAuthRoute) return handleAuthRoute(req, isLoggedIn); // Verifica se a rota é de autenticação
+      if (!isLoggedIn) return handlePrivateRoute(req, req.nextUrl); // Verifica se o usuário está logado
+    } catch {
+      return;
+    }
+  });
 });
 
+// Exporta aConfiguração do middleware
 export const config = {
-  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'], // Define quais rotas devem ser tratadas pelo middleware
+  // Matcher para o middleware, definindo quais rotas ele deve ser executado
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };

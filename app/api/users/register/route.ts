@@ -1,12 +1,44 @@
-import { handleApiResponse, validateSchema } from '@/shared';
-import { UserAction, RegisterSchema } from '@/features/users';
+import { NextRequest } from "next/server";
 
-/** API para registrar um novo usuário */
-export async function POST(req: Request) {
+import {
+  DomainError,
+  ERROR_MESSAGES,
+  handleApiResponse,
+  validateSchema,
+} from "@/shared";
+import { CreateUserSchema, UserAction } from "@/features/users";
+import { TenantRequestContext } from "@/features/tenants";
+
+/**
+ * Endpoint para registrar um novo usuário.
+ *
+ * O endpoint aceita os dados do tenant via header ex: `x-tenant-id` ou como propriedade ex: `tenantId` no corpo da requisição.
+ *
+ */
+export async function POST(req: NextRequest) {
   return handleApiResponse(async () => {
-    const { planId, ...values } = await req.json();
-    validateSchema(RegisterSchema, values);
-    const actionResponse = await UserAction.registerUser(values, planId);
-    return actionResponse;
+    // Extrair os dados do tenant da requisição manualmente
+    let tenantId: string | null = null;
+
+    // Obter o corpo da requisição
+    const body = await req.json();
+
+    // Obter os dados do tenant do header ou da requisição
+    tenantId = req.headers.get("x-tenant-id") || body.tenantId;
+
+    // Validar os dados do tenant
+    if (!tenantId) {
+      throw new DomainError(ERROR_MESSAGES.INVALID_FIELDS, 400);
+    }
+
+    // Obter os valores do corpo da requisição para registrar o usuário
+    const values = { name: body.name, email: body.email };
+
+    // Executar a action de registro do usuário dentro do contexto do tenant
+    return TenantRequestContext.run({ tenantId, userId: null }, async () => {
+      validateSchema(CreateUserSchema, values);
+      const actionResponse = await UserAction.inviteUser(values);
+      return actionResponse;
+    });
   });
 }

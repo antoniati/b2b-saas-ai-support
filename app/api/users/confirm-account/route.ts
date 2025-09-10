@@ -1,11 +1,11 @@
-import { ERROR_MESSAGES, handleApiResponse } from '@/shared';
-import { AuthAction } from '@/features/users';
+import { ERROR_MESSAGES, handleApiResponse } from "@/shared";
+import { AuthAction } from "@/features/auth";
 
 /** API para confirmar a conta */
 export async function GET(request: Request) {
   return handleApiResponse(async () => {
     const url = new URL(request.url);
-    const token = url.searchParams.get('token');
+    const token = url.searchParams.get("token");
 
     if (!token) {
       return {

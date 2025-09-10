@@ -2,6 +2,11 @@
   "name": "b2b-saas-ai-support",
   "version": "0.1.0",
   "private": true,
+  "prettier": {
+    "plugins": [
+      "prettier-plugin-handlebars"
+    ]
+  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
@@ -10,10 +15,12 @@
     "lint:fix": "eslint 'features/**/*.ts' 'features/**/*.tsx' 'app/**/*.ts' 'app/**/*.tsx' 'shared/**/*.ts' 'shared/**/*.tsx' --fix --no-ignore",
     "format:check": "prettier --check .",
     "format:fix": "prettier --write .",
+    "format:templates": "prettier --write 'plop-templates/**/*.hbs'",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
     "db:migrate": "prisma migrate dev",
+    "generate:feature": "plop",
     "test": "jest --testPathPatterns=\".*\\.test\\.ts$\"",
     "test:all": "jest",
     "test:watch": "jest --watch",
@@ -72,14 +79,19 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "jest": "^30.0.5",
+    "pg": "^8.16.3",
+    "plop": "^4.0.2",
     "prettier": "^3.6.2",
+    "prettier-plugin-handlebars": "^0.0.1",
     "prisma": "^6.14.0",
     "tailwindcss": "^4",
+    "testcontainers": "^11.5.1",
     "ts-jest": "^29.4.1",
     "ts-node": "^10.9.2",
     "tsx": "^4.20.4",
     "tw-animate-css": "^1.3.7",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wait-port": "^1.1.0"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

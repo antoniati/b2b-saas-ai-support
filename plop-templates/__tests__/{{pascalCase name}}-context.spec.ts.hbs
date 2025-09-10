@@ -1,0 +1,47 @@
+import React from 'react';
+import { render, screen, waitFor } from '@testing-library/react';
+import { {{pascalCase name}}Provider, use{{pascalCase name}} } from '../contexts/{{pascalCase name}}-context';
+
+// Componente de teste
+const TestComponent: React.FC = () => {
+  const { {{name}}s, loading, error } = use{{pascalCase name}}();
+  
+  return (
+    <div>
+      <div data-testid="loading">{loading ? 'Loading' : 'Not Loading'}</div>
+      <div data-testid="error">{error}</div>
+      <div data-testid="count">{{name}}s.length</div>
+    </div>
+  );
+};
+
+describe('{{pascalCase name}}Context', () => {
+  it('deve prover contexto com valores iniciais', () => {
+    const initial{{pascalCase name}}s = [
+      { id: '1', name: 'Test 1', createdAt: new Date(), updatedAt: new Date() },
+      { id: '2', name: 'Test 2', createdAt: new Date(), updatedAt: new Date() },
+    ];
+
+    render(
+      <{{pascalCase name}}Provider initial{{pascalCase name}}s={initial{{pascalCase name}}s}>
+        <TestComponent />
+      </{{pascalCase name}}Provider>
+    );
+
+    expect(screen.getByTestId('count').textContent).toBe('2');
+    expect(screen.getByTestId('loading').textContent).toBe('Not Loading');
+    expect(screen.getByTestId('error').textContent).toBe('');
+  });
+
+  it('deve lançar erro quando usado fora do provider', () => {
+    // Suprime o erro esperado do console
+    const originalError = console.error;
+    console.error = jest.fn();
+
+    expect(() => render(<TestComponent />)).toThrow(
+      'use{{pascalCase name}} must be used within a {{pascalCase name}}Provider'
+    );
+
+    console.error = originalError;
+  });
+});

@@ -1,0 +1,60 @@
+import { {{pascalCase name}}Repository } from '../repository/{{name}}-repo';
+import { {{pascalCase name}}FormValues, {{pascalCase name}}Data } from '../types/{{name}}-types';
+import { mapPrismaError } from '@/shared/errors/prisma-error-mapper';
+
+export const {{pascalCase name}}Service = {
+  /**
+   * Cria um novo {{name}}
+   */
+  async create(values: {{pascalCase name}}FormValues): Promise<{{pascalCase name}}Data> {
+    try {
+      return await {{pascalCase name}}Repository.create(values);
+    } catch (error) {
+      throw mapPrismaError(error);
+    }
+  },
+
+  /**
+   * Busca {{name}} por ID
+   */
+  async getById(id: string): Promise<{{pascalCase name}}Data> {
+    const {{name}} = await {{pascalCase name}}Repository.findById(id);
+    if (!{{name}}) {
+      throw new Error('{{pascalCase name}} não encontrado');
+    }
+    return {{name}};
+  },
+
+  /**
+   * Lista todos os {{name}}s
+   */
+  async getAll(): Promise<{{pascalCase name}}Data[]> {
+    try {
+      return await {{pascalCase name}}Repository.findAll();
+    } catch (error) {
+      throw mapPrismaError(error);
+    }
+  },
+
+  /**
+   * Atualiza um {{name}}
+   */
+  async update(id: string, values: Partial<{{pascalCase name}}FormValues>): Promise<{{pascalCase name}}Data> {
+    try {
+      return await {{pascalCase name}}Repository.update(id, values);
+    } catch (error) {
+      throw mapPrismaError(error);
+    }
+  },
+
+  /**
+   * Deleta um {{name}}
+   */
+  async delete(id: string): Promise<void> {
+    try {
+      await {{pascalCase name}}Repository.delete(id);
+    } catch (error) {
+      throw mapPrismaError(error);
+    }
+  },
+};

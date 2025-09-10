@@ -58,7 +58,7 @@ export class DomainError extends Error {
 
   constructor(message: string, status = 400, errors?: Record<string, string>) {
     super(message);
-    this.name = 'DomainError';
+    this.name = "DomainError";
     this.status = status;
     this.errors = errors;
   }
@@ -69,7 +69,7 @@ export class DomainError extends Error {
 
 ```ts
 if (!userFound) {
-  throw new DomainError('Usuário não encontrado', 404);
+  throw new DomainError("Usuário não encontrado", 404);
 }
 ```
 
@@ -78,7 +78,7 @@ if (!userFound) {
 Todas as funções do apiClient devem retornar `ActionResponse<T>` para garantir que a tipagem seja consistente em todo o frontend:
 
 ```ts
-const res: ActionResponse<UserData> = await apiClient.get('/users/123');
+const res: ActionResponse<UserData> = await apiClient.get("/users/123");
 if (res.ok) {
   console.log(res.data);
 } else {

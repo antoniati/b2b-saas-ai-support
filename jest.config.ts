@@ -7,8 +7,8 @@ const config: Config = {
     "^.+\\.tsx?$": ["ts-jest", { useESM: true }],
   },
   moduleNameMapper: {
-    "^@/shared/lib/prisma$": "<rootDir>/__tests__/mocks/prisma-mock.ts",
-    "^next-auth$": "<rootDir>/__tests__/mocks/next-auth-mock.ts",
+    "^@/shared/lib/prisma$": "<rootDir>/__tests__/__mocks__/prisma-mock.ts",
+    "^next-auth$": "<rootDir>/__tests__/__mocks__/next-auth-mock.ts",
     "^@/(.*)$": "<rootDir>/$1",
   },
   transformIgnorePatterns: [
@@ -17,16 +17,16 @@ const config: Config = {
   ],
   testPathIgnorePatterns: [
     "/node_modules/",
-    "__tests__/setup/",
-    "__tests__/mocks/",
-    "__tests__/fixtures/",
+    "__tests__/__setup__/",
+    "__tests__/__mocks__/",
+    "__tests__/__fixtures__/",
   ],
   // evita warning de ts-jest globals deprecado
   globals: {},
   verbose: true,
   testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.(ts|tsx)$",
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-  setupFilesAfterEnv: ["<rootDir>/__tests__/setup/test-setup.ts"],
+  setupFilesAfterEnv: ["<rootDir>/__tests__/__setup__/test-setup.ts"],
 };
 
 export default config;

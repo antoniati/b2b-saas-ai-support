@@ -1,13 +1,4 @@
-import { NextRequest } from "next/server";
-
-import {
-  DomainError,
-  ERROR_MESSAGES,
-  handleApiResponse,
-  validateSchema,
-} from "@/shared";
-import { CreateUserSchema, UserAction } from "@/features/users";
-import { TenantRequestContext } from "@/features/tenants";
+export const runtime = "nodejs";
 
 /**
  * Endpoint para registrar um novo usuário.
@@ -15,7 +6,12 @@ import { TenantRequestContext } from "@/features/tenants";
  * O endpoint aceita os dados do tenant via header ex: `x-tenant-id` ou como propriedade ex: `tenantId` no corpo da requisição.
  *
  */
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
+  const { DomainError, ERROR_MESSAGES, handleApiResponse, validateSchema } =
+    await import("@/shared");
+  const { CreateUserSchema, UserAction } = await import("@/features/users");
+  const { TenantRequestContext } = await import("@/features/tenants");
+
   return handleApiResponse(async () => {
     // Extrair os dados do tenant da requisição manualmente
     let tenantId: string | null = null;

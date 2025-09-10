@@ -1,6 +1,9 @@
-import prisma from "../shared/lib/prisma";
+import { getPrisma } from "../shared/lib/prisma";
+
 import { TenantRequestContext } from "@/features/tenants/contexts/tenants-context";
 import { TicketStatus, Role } from "@prisma/client";
+
+const prismaClient = getPrisma();
 
 /**
  * Função para criar dados iniciais para o banco de dados com contexto de tenant.
@@ -15,7 +18,7 @@ import { TicketStatus, Role } from "@prisma/client";
  */
 async function main() {
   // Criando tenants
-  const tenantA = await prisma.tenant.create({
+  const tenantA = await prismaClient.tenant.create({
     data: {
       id: "tenant-a",
       name: "Tenant A",
@@ -25,7 +28,7 @@ async function main() {
     },
   });
 
-  const tenantB = await prisma.tenant.create({
+  const tenantB = await prismaClient.tenant.create({
     data: {
       id: "tenant-b",
       name: "Tenant B",
@@ -36,7 +39,7 @@ async function main() {
   });
 
   // Criando usuários
-  const userA1 = await prisma.user.create({
+  const userA1 = await prismaClient.user.create({
     data: {
       id: "user-a1",
       name: "Alice",
@@ -47,7 +50,7 @@ async function main() {
     },
   });
 
-  const userB1 = await prisma.user.create({
+  const userB1 = await prismaClient.user.create({
     data: {
       id: "user-b1",
       name: "Bob",
@@ -65,7 +68,7 @@ async function main() {
 
   // Tickets e respostas
   await runTenant(tenantA.id, async () => {
-    const ticket = await prisma.ticket.create({
+    const ticket = await prismaClient.ticket.create({
       data: {
         id: "ticket-a1",
         subject: "Problema A1",
@@ -87,7 +90,7 @@ async function main() {
       },
     });
 
-    const faq = await prisma.faqArticle.create({
+    const faq = await prismaClient.faqArticle.create({
       data: {
         id: "faq-a1",
         tenantId: tenantA.id,
@@ -106,7 +109,7 @@ async function main() {
   });
 
   await runTenant(tenantB.id, async () => {
-    const ticket = await prisma.ticket.create({
+    const ticket = await prismaClient.ticket.create({
       data: {
         id: "ticket-b1",
         subject: "Problema B1",
@@ -128,7 +131,7 @@ async function main() {
       },
     });
 
-    const faq = await prisma.faqArticle.create({
+    const faq = await prismaClient.faqArticle.create({
       data: {
         id: "faq-b1",
         tenantId: tenantB.id,
@@ -155,5 +158,5 @@ main()
     process.exit(1);
   })
   .finally(async () => {
-    await prisma.$disconnect();
+    await prismaClient.$disconnect();
   });

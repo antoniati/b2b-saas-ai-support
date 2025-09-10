@@ -28,7 +28,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "__tests__",
-    "__tests__/setup/globals.d.ts"
+    "__tests__/__setup__/globals.d.ts"
   ],
   "exclude": ["node_modules"]
 }

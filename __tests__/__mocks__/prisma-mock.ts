@@ -23,7 +23,6 @@ const prismaMock = {
     update: jest.fn(),
     delete: jest.fn(),
   },
-
   $use: jest.fn(),
   $executeRaw: jest.fn(),
   $transaction: jest.fn(),
@@ -32,13 +31,14 @@ const prismaMock = {
   $executeRawUnsafe: jest.fn(),
 };
 
-// exporta o objeto mockado
+// Exportar como default para uso direto
+export default prismaMock;
+
+// Exportar como instância para uso em testes
 export const prismaMockInstance = prismaMock;
 
-// mocka o import real de prismaClient
+// Mock da função getPrisma
 jest.mock("@/shared/lib/prisma", () => ({
   __esModule: true,
-  default: prismaMock,
+  getPrisma: () => prismaMock,
 }));
-
-export default prismaMock;

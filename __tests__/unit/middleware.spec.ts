@@ -10,7 +10,7 @@ jest.mock("@/features/tenants/repository/tenants-repo", () => ({
 }));
 
 import middleware from "@/middleware";
-import { createMockRequestAndContext } from "@/__tests__/setup/helpers/create-mock-request";
+import { createMockRequestAndContext } from "@/__tests__/__setup__/helpers/create-mock-request";
 import { shouldBypassAuth } from "@/features/auth/utils/ignore-routes";
 import { extractSlugFromDomain } from "@/features/tenants/utils/tenants-domain-utils";
 import { TenantRepository } from "@/features/tenants/repository/tenants-repo";

@@ -1,7 +1,11 @@
 import waitPort from "wait-port"; // Importa a biblioteca "wait-port" para aguardar o banco de dados iniciar
 import { execSync } from "child_process"; // Importa a biblioteca "child_process" para executar comandos no terminal
-import prismaClient from "@/shared/lib/prisma"; // Importa a instância do Prisma Client
+import { getPrisma } from "@/shared/lib/prisma";
+
+// Importa a instância do Prisma Client
 import { TenantRequestContext } from "@/features/tenants/contexts/tenants-context"; // Importa o contexto de solicitação de tenant
+
+const prismaClient = getPrisma();
 
 /**
  * Prepara o banco de dados para testes.

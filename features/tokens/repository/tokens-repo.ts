@@ -1,6 +1,5 @@
 import { TokenType } from "@prisma/client";
 
-import prismaClient from "@/shared/lib/prisma";
 import { type TokenProps } from "@/features/tokens";
 
 /**
@@ -16,6 +15,9 @@ export const TokenRepository = {
     expires,
     type,
   }: TokenProps): Promise<TokenProps> {
+    const { getPrisma } = await import("@/shared/lib/prisma");
+    const prismaClient = getPrisma();
+
     return prismaClient.token.create({
       data: { email, token, expires, type },
     });
@@ -25,6 +27,9 @@ export const TokenRepository = {
    * Deleta um token pelo ID.
    */
   async delete(id: string): Promise<TokenProps> {
+    const { getPrisma } = await import("@/shared/lib/prisma");
+    const prismaClient = getPrisma();
+
     return prismaClient.token.delete({ where: { id } });
   },
 
@@ -35,6 +40,9 @@ export const TokenRepository = {
     email: string,
     type: TokenType,
   ): Promise<TokenProps | null> {
+    const { getPrisma } = await import("@/shared/lib/prisma");
+    const prismaClient = getPrisma();
+
     return prismaClient.token.findFirst({
       where: { email, type },
     });
@@ -47,6 +55,9 @@ export const TokenRepository = {
     token: string,
     type: TokenType,
   ): Promise<TokenProps | null> {
+    const { getPrisma } = await import("@/shared/lib/prisma");
+    const prismaClient = getPrisma();
+
     return prismaClient.token.findFirst({
       where: { token, type },
     });

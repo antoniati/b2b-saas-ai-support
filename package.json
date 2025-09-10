@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint 'features/**/*.ts' 'features/**/*.tsx' 'app/**/*.ts' 'app/**/*.tsx' 'shared/**/*.ts' 'shared/**/*.tsx'",
     "lint:fix": "eslint 'features/**/*.ts' 'features/**/*.tsx' 'app/**/*.ts' 'app/**/*.tsx' 'shared/**/*.ts' 'shared/**/*.tsx' --fix --no-ignore",
@@ -42,6 +42,7 @@
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tabs": "^1.1.13",
     "@radix-ui/react-tooltip": "^1.2.8",
+    "@react-email/render": "^1.2.3",
     "@tanstack/react-query": "^5.87.1",
     "@tanstack/react-query-devtools": "^5.87.3",
     "@uploadthing/react": "^7.3.3",

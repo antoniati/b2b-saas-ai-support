@@ -1,4 +1,6 @@
-import prismaClient from "@/shared/lib/prisma";
+import { getPrisma } from "@/shared/lib/prisma";
+
+const prismaClient = getPrisma();
 
 export async function withTenant(tenantId: string, fn: () => Promise<any>) {
   await prismaClient.$transaction(async (tx) => {

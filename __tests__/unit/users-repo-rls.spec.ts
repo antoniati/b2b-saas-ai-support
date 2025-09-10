@@ -1,9 +1,11 @@
-import prismaMock from "@/__tests__/mocks/prisma-mock";
+import { getPrisma } from "@/shared/lib/prisma";
 import { UserRepository } from "@/features/users/repository/users-repo";
 import { ForbiddenError, UnauthorizedError } from "@/shared";
 import { TenantRequestContext } from "@/features/tenants/contexts/tenants-context";
 
 describe("Row-Level Security (RLS) - UserRepository", () => {
+  const prismaMock = getPrisma();
+
   beforeEach(() => {
     jest.clearAllMocks();
   });

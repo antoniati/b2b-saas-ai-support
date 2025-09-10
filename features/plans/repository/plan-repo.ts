@@ -1,7 +1,5 @@
 import { Plan, PlanName } from "@prisma/client";
 
-import prismaClient from "@/shared/lib/prisma";
-
 /**
  * Repositorio de plano.
  */
@@ -10,6 +8,9 @@ export const PlanRepository = {
    * Recupera todos os planos da base de dados.
    */
   async findAll(): Promise<Plan[]> {
+    const { getPrisma } = await import("@/shared/lib/prisma");
+    const prismaClient = getPrisma();
+
     return await prismaClient.plan.findMany({
       select: {
         id: true,
@@ -24,6 +25,9 @@ export const PlanRepository = {
    * Busca um plano pelo ID.
    */
   async findById(id: string): Promise<Plan | null> {
+    const { getPrisma } = await import("@/shared/lib/prisma");
+    const prismaClient = getPrisma();
+
     return await prismaClient.plan.findUnique({
       where: { id },
       select: {
@@ -38,6 +42,9 @@ export const PlanRepository = {
    * Busca um plano pelo nome.
    */
   async findByName(name: PlanName): Promise<Plan | null> {
+    const { getPrisma } = await import("@/shared/lib/prisma");
+    const prismaClient = getPrisma();
+
     return await prismaClient.plan.findFirst({
       where: { name },
       select: {

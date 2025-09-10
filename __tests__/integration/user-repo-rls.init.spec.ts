@@ -1,14 +1,17 @@
-import prismaClient from "@/shared/lib/prisma";
+import { getPrisma } from "@/shared/lib/prisma";
+
 import { UserRepository } from "@/features/users/repository/users-repo";
 import { TenantRequestContext } from "@/features/tenants/contexts/tenants-context";
 import {
   setupDatabase,
   teardownDatabase,
   resetDatabase,
-} from "@/__tests__/setup/setup-database";
-import { setupSchema } from "@/__tests__/setup/helpers/schema";
-import { withTenant } from "@/__tests__/setup/helpers/tenant-helper";
+} from "@/__tests__/__setup__/setup-database";
+import { setupSchema } from "@/__tests__/__setup__/helpers/schema";
+import { withTenant } from "@/__tests__/__setup__/helpers/tenant-helper";
 import { ForbiddenError, UnauthorizedError } from "@/shared";
+
+const prismaClient = getPrisma();
 
 jest.setTimeout(12000);
 

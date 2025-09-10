@@ -1,7 +1,5 @@
 "use server";
 
-import prismaClient from "@/shared/lib/prisma";
-
 import {
   TenantData,
   type TenantFormValues,
@@ -24,6 +22,9 @@ export const TenantRepository = {
   async create(
     values: Omit<TenantFormValues, "planId"> & { planId: string },
   ): Promise<TenantResponse> {
+    const { getPrisma } = await import("@/shared/lib/prisma");
+    const prismaClient = getPrisma();
+
     return await prismaClient.tenant.create({
       data: {
         name: values.name,
@@ -47,6 +48,9 @@ export const TenantRepository = {
       throw new UnauthorizedError();
     }
 
+    const { getPrisma } = await import("@/shared/lib/prisma");
+    const prismaClient = getPrisma();
+
     const tenant = await prismaClient.tenant.findUnique({
       where: { id },
     });
@@ -66,6 +70,9 @@ export const TenantRepository = {
    * diferente do tenant no contexto.
    */
   async findBySlug(slug: string): Promise<TenantData | null> {
+    const { getPrisma } = await import("@/shared/lib/prisma");
+    const prismaClient = getPrisma();
+
     const tenant = await prismaClient.tenant.findFirst({ where: { slug } });
     if (!tenant) return null;
     ensureTenantAccess(tenant.id);
@@ -80,6 +87,9 @@ export const TenantRepository = {
    * diferente do tenant no contexto.
    */
   async findByDomain(domain: string): Promise<TenantData | null> {
+    const { getPrisma } = await import("@/shared/lib/prisma");
+    const prismaClient = getPrisma();
+
     const tenant = await prismaClient.tenant.findFirst({ where: { domain } });
     if (!tenant) return null;
     ensureTenantAccess(tenant.id);
@@ -95,6 +105,9 @@ export const TenantRepository = {
   async findAll(): Promise<TenantData[]> {
     const contextoTenantId = getRequestTenantId();
     if (contextoTenantId) return [];
+    const { getPrisma } = await import("@/shared/lib/prisma");
+    const prismaClient = getPrisma();
+
     return prismaClient.tenant.findMany();
   },
 
@@ -110,6 +123,9 @@ export const TenantRepository = {
   ): Promise<TenantResponse> {
     requireAuthenticated();
     ensureTenantAccess(id);
+    const { getPrisma } = await import("@/shared/lib/prisma");
+    const prismaClient = getPrisma();
+
     return prismaClient.tenant.update({
       where: { id },
       data: values,
@@ -126,6 +142,9 @@ export const TenantRepository = {
   async delete(id: string): Promise<void> {
     requireAuthenticated();
     ensureTenantAccess(id);
+    const { getPrisma } = await import("@/shared/lib/prisma");
+    const prismaClient = getPrisma();
+
     await prismaClient.tenant.update({
       where: { id },
       data: { active: false },

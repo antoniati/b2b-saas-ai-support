@@ -1,7 +1,11 @@
 import NextAuth from "next-auth"; // Importando o pacote NextAuth para a autenticação.
 import { PrismaAdapter } from "@auth/prisma-adapter"; // Importando o adaptador Prisma para a persistência de dados.
 
-import prismaClient from "@/shared/lib/prisma"; // Importando a instância do Prisma Client.
+import { getPrisma } from "@/shared/lib/prisma";
+
+const prismaClient = getPrisma();
+
+// Importando a instância do Prisma Client.
 import {
   jwtCallback,
   linkAccountEvent,

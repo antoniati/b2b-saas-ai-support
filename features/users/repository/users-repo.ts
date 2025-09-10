@@ -2,7 +2,6 @@
 
 import type { Role, User } from "@prisma/client";
 
-import prismaClient from "@/shared/lib/prisma";
 import {
   selectedUserData,
   type CreateUserForm,
@@ -35,6 +34,9 @@ export const UserRepository = {
   }: CreateUserForm): Promise<Pick<UserData, "email" | "id" | "tenantId">> {
     ensureTenantAccess(tenantId);
 
+    const { getPrisma } = await import("@/shared/lib/prisma");
+    const prismaClient = getPrisma();
+
     return prismaClient.user.create({
       data: { name, email, password, tenantId, role, status },
       select: { id: true, email: true, tenantId: true },
@@ -45,6 +47,9 @@ export const UserRepository = {
     if (!ctx?.tenantId) {
       throw new UnauthorizedError();
     }
+
+    const { getPrisma } = await import("@/shared/lib/prisma");
+    const prismaClient = getPrisma();
 
     const user = await prismaClient.user.findUnique({
       where: { email },
@@ -63,6 +68,9 @@ export const UserRepository = {
       throw new UnauthorizedError();
     }
 
+    const { getPrisma } = await import("@/shared/lib/prisma");
+    const prismaClient = getPrisma();
+
     const user = await prismaClient.user.findUnique({
       where: { id },
     });
@@ -79,6 +87,9 @@ export const UserRepository = {
   async findByEmailForCredentials(
     email: string,
   ): Promise<Pick<User, "email" | "password"> | null> {
+    const { getPrisma } = await import("@/shared/lib/prisma");
+    const prismaClient = getPrisma();
+
     const user = await prismaClient.user.findUnique({
       where: { email },
       select: { email: true, password: true, tenantId: true },
@@ -98,6 +109,9 @@ export const UserRepository = {
     email: string,
     tenantId: string,
   ): Promise<UserData | null> {
+    const { getPrisma } = await import("@/shared/lib/prisma");
+    const prismaClient = getPrisma();
+
     const user = await prismaClient.user.findUnique({
       where: { email, tenantId },
       select: selectedUserData,
@@ -117,6 +131,9 @@ export const UserRepository = {
     const tenantId = getRequestTenantId();
     if (!tenantId) return [];
 
+    const { getPrisma } = await import("@/shared/lib/prisma");
+    const prismaClient = getPrisma();
+
     return prismaClient.user.findMany({
       where: { tenantId },
       select: selectedUserData,
@@ -131,6 +148,9 @@ export const UserRepository = {
     password: string,
   ): Promise<UserData | null> {
     requireAuthenticated();
+
+    const { getPrisma } = await import("@/shared/lib/prisma");
+    const prismaClient = getPrisma();
 
     const user = await prismaClient.user.update({
       where: { email },
@@ -151,6 +171,9 @@ export const UserRepository = {
   ): Promise<UserData | null> {
     requireAuthenticated();
 
+    const { getPrisma } = await import("@/shared/lib/prisma");
+    const prismaClient = getPrisma();
+
     const user = await prismaClient.user.update({
       where: { id },
       data: { isTwoFactorEnabled },
@@ -166,6 +189,9 @@ export const UserRepository = {
    */
   async updateRole(email: string, role: Role): Promise<UserData | null> {
     requireAuthenticated();
+
+    const { getPrisma } = await import("@/shared/lib/prisma");
+    const prismaClient = getPrisma();
 
     const user = await prismaClient.user.update({
       where: { email },
@@ -191,6 +217,9 @@ export const UserRepository = {
   }): Promise<UserData | null> {
     requireAuthenticated();
 
+    const { getPrisma } = await import("@/shared/lib/prisma");
+    const prismaClient = getPrisma();
+
     const user = await prismaClient.user.update({
       where: { id },
       data: { email, name },
@@ -207,6 +236,9 @@ export const UserRepository = {
   async updateEmailVerificationDate(email: string): Promise<UserData | null> {
     requireAuthenticated();
 
+    const { getPrisma } = await import("@/shared/lib/prisma");
+    const prismaClient = getPrisma();
+
     const user = await prismaClient.user.update({
       where: { email },
       data: { isEmailVerified: new Date() },
@@ -222,6 +254,9 @@ export const UserRepository = {
    */
   async delete(id: string): Promise<void> {
     requireAuthenticated();
+
+    const { getPrisma } = await import("@/shared/lib/prisma");
+    const prismaClient = getPrisma();
 
     const user = await prismaClient.user.update({
       where: { id },

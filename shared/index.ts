@@ -1,4 +1,3 @@
-export * from "./lib/prisma";
 export * from "./types/api-type";
 export * from "./types/action-type";
 export * from "./services/password-service";

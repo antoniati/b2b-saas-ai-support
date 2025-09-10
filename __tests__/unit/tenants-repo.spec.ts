@@ -1,9 +1,11 @@
-import prismaMock from "@/__tests__/mocks/prisma-mock";
+import { getPrisma } from "@/shared/lib/prisma";
 import { ForbiddenError, UnauthorizedError } from "@/shared";
 import { TenantRequestContext } from "@/features/tenants/contexts/tenants-context";
 import { ensureTenantAccess, TenantRepository } from "@/features/tenants";
 
 describe("TenantRepository", () => {
+  const prismaMock = getPrisma();
+
   beforeEach(() => {
     jest.clearAllMocks();
   });

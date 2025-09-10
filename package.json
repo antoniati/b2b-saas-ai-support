@@ -30,7 +30,7 @@
   "dependencies": {
     "@auth/prisma-adapter": "^2.10.0",
     "@hookform/resolvers": "^5.2.1",
-    "@prisma/client": "^6.14.0",
+    "@prisma/client": "^6.16.0",
     "@prisma/extension-accelerate": "^2.0.2",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-avatar": "^1.1.10",
@@ -42,8 +42,8 @@
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tabs": "^1.1.13",
     "@radix-ui/react-tooltip": "^1.2.8",
-    "@tanstack/react-query": "^5.85.5",
-    "@tanstack/react-query-devtools": "^5.85.5",
+    "@tanstack/react-query": "^5.87.1",
+    "@tanstack/react-query-devtools": "^5.87.3",
     "@uploadthing/react": "^7.3.3",
     "axios": "^1.11.0",
     "bcryptjs": "^3.0.2",
@@ -53,44 +53,44 @@
     "lucide-react": "^0.541.0",
     "next": "15.5.0",
     "next-auth": "5.0.0-beta.21",
-    "openai": "^5.15.0",
+    "openai": "^5.20.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-hook-form": "^7.62.0",
-    "resend": "^6.0.1",
+    "resend": "^6.0.3",
     "sonner": "^2.0.7",
-    "stripe": "^18.4.0",
+    "stripe": "^18.5.0",
     "tailwind-merge": "^3.3.1",
     "uploadthing": "^7.7.4",
     "uuid": "^11.1.0",
-    "zod": "^4.0.17"
+    "zod": "^4.1.5"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "@tailwindcss/postcss": "^4",
+    "@eslint/eslintrc": "^3.3.1",
+    "@tailwindcss/postcss": "^4.1.13",
     "@types/jest": "^30.0.0",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "@typescript-eslint/eslint-plugin": "^8.40.0",
-    "@typescript-eslint/parser": "^8.40.0",
-    "eslint": "^9",
+    "@types/node": "^20.19.13",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "@typescript-eslint/eslint-plugin": "^8.43.0",
+    "@typescript-eslint/parser": "^8.43.0",
+    "eslint": "^9.35.0",
     "eslint-config-next": "15.5.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
-    "jest": "^30.0.5",
+    "jest": "^30.1.3",
     "pg": "^8.16.3",
     "plop": "^4.0.2",
     "prettier": "^3.6.2",
     "prettier-plugin-handlebars": "^0.0.1",
-    "prisma": "^6.14.0",
-    "tailwindcss": "^4",
+    "prisma": "^6.16.0",
+    "tailwindcss": "^4.1.13",
     "testcontainers": "^11.5.1",
     "ts-jest": "^29.4.1",
     "ts-node": "^10.9.2",
-    "tsx": "^4.20.4",
-    "tw-animate-css": "^1.3.7",
-    "typescript": "^5",
+    "tsx": "^4.20.5",
+    "tw-animate-css": "^1.3.8",
+    "typescript": "^5.9.2",
     "wait-port": "^1.1.0"
   },
   "lint-staged": {
@@ -98,5 +98,10 @@
       "eslint --fix",
       "prettier --write"
     ]
+  },
+  "pnpm": {
+    "overrides": {
+      "cookie": "1.0.2"
+    }
   }
 }

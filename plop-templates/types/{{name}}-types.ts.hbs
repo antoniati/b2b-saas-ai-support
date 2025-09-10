@@ -1,0 +1,19 @@
+import { z } from 'zod';
+
+// Schema de validação
+export const {{pascalCase name}}Schema = z.object({
+  name: z.string().min(1, 'Nome é obrigatório'),
+  // Adicione outros campos conforme necessário
+});
+
+// Tipos TypeScript
+export interface {{pascalCase name}}Data {
+  id: string;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
+  tenantId?: string;
+  // Adicione outros campos conforme necessário
+}
+
+export type {{pascalCase name}}FormValues = z.infer<typeof {{pascalCase name}}Schema>;

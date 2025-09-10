@@ -1,14 +1,21 @@
-import { Geist, Geist_Mono, Inter } from 'next/font/google';
+import { Geist, Geist_Mono, Inter } from "next/font/google";
 
-import { Header, Footer, MainContainer } from '@/features/layout';
+import { Header, Footer, MainContainer } from "@/features/layout";
 
-import './globals.css';
+import "./globals.css";
 
-const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] });
-const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] });
-const inter = Inter({ variable: '--font-inter', subsets: ['latin'] });
+const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body

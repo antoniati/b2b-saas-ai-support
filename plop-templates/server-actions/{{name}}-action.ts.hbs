@@ -1,0 +1,58 @@
+'use server';
+
+import { ActionResponse, handleAction } from '@/shared';
+import { {{pascalCase name}}Service } from '../services/{{name}}-service';
+import { {{pascalCase name}}FormValues } from '../types/{{name}}-types';
+
+
+export const {{pascalCase name}}Action = {
+  /**
+   * Cria um novo {{name}}
+   */
+  async create{{pascalCase name}}(values: {{pascalCase name}}FormValues): Promise<ActionResponse> {
+    return handleAction(async () => {
+      const {{name}} = await {{pascalCase name}}Service.create(values);
+      return {{name}};
+    });
+  },
+
+  /**
+   * Busca {{name}} por ID
+   */
+  async get{{pascalCase name}}ById(id: string): Promise<ActionResponse> {
+    return handleAction(async () => {
+      const {{name}} = await {{pascalCase name}}Service.getById(id);
+      return {{name}};
+    });
+  },
+
+  /**
+   * Lista todos os {{name}}s
+   */
+  async getAll{{pascalCase name}}s(): Promise<ActionResponse> {
+    return handleAction(async () => {
+      const {{name}}s = await {{pascalCase name}}Service.getAll();
+      return {{name}}s;
+    });
+  },
+
+  /**
+   * Atualiza um {{name}}
+   */
+  async update{{pascalCase name}}(id: string, values: Partial<{{pascalCase name}}FormValues>): Promise<ActionResponse> {
+    return handleAction(async () => {
+      const {{name}} = await {{pascalCase name}}Service.update(id, values);
+      return {{name}};
+    });
+  },
+
+  /**
+   * Deleta um {{name}}
+   */
+  async delete{{pascalCase name}}(id: string): Promise<ActionResponse> {
+    return handleAction(async () => {
+      await {{pascalCase name}}Service.delete(id);
+      return { message: '{{pascalCase name}} deletado com sucesso' };
+    });
+  },
+};

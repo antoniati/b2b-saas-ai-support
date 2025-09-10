@@ -1,0 +1,48 @@
+import { prismaClient } from '@/shared';
+import { {{pascalCase name}}Data, {{pascalCase name}}FormValues } from '../types/{{name}}-types';
+
+export const {{pascalCase name}}Repository = {
+  /**
+   * Cria um novo {{name}}
+   */
+  async create(values: {{pascalCase name}}FormValues): Promise<{{pascalCase name}}Data> {
+    return await prismaClient.{{name}}.create({
+      data: values,
+    });
+  },
+
+  /**
+   * Busca {{name}} por ID
+   */
+  async findById(id: string): Promise<{{pascalCase name}}Data | null> {
+    return await prismaClient.{{name}}.findUnique({
+      where: { id },
+    });
+  },
+
+  /**
+   * Lista todos os {{name}}s
+   */
+  async findAll(): Promise<{{pascalCase name}}Data[]> {
+    return await prismaClient.{{name}}.findMany();
+  },
+
+  /**
+   * Atualiza um {{name}}
+   */
+  async update(id: string, values: Partial<{{pascalCase name}}FormValues>): Promise<{{pascalCase name}}Data> {
+    return await prismaClient.{{name}}.update({
+      where: { id },
+      data: values,
+    });
+  },
+
+  /**
+   * Deleta um {{name}}
+   */
+  async delete(id: string): Promise<void> {
+    await prismaClient.{{name}}.delete({
+      where: { id },
+    });
+  },
+};

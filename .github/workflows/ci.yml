@@ -44,7 +44,7 @@ jobs:
   # Testes (unit + integração com Postgres real)
   # ---------------------------
   test:
-    name: Run Tests (with Postgres)
+    name: Run Tests
     runs-on: ubuntu-latest
     needs: lint-and-typecheck
 

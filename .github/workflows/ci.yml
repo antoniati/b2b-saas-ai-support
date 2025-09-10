@@ -89,7 +89,7 @@ jobs:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/saasdb
 
       - name: Run tests with coverage
-        run: pnpm test --ci --coverage --passWithNoTests
+        run: pnpm run test:ci
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/saasdb
 

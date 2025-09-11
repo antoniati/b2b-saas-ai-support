@@ -1,30 +1,11 @@
-import { TicketStatus } from "@prisma/client";
+import z from "zod";
 
-export interface TicketResponseData {
-  id: string;
-  ticketId: string;
-  senderId?: string | null;
-  message: string;
-  isAi: boolean;
-  createdAt: Date;
-}
+import {
+  TicketCreateSchema,
+  TicketResponseSchema,
+  TicketSchema,
+} from "@/features/tickets/schema";
 
-export interface TicketData {
-  id: string;
-  subject: string;
-  content: string;
-  status: TicketStatus;
-  tenantId: string;
-  creatorId: string;
-  assigneeId?: string | null;
-  responses: TicketResponseData[];
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-// Para criar um ticket
-export interface TicketCreateInput {
-  subject: string;
-  content: string;
-  assigneeId?: string | null;
-}
+export type Ticket = z.infer<typeof TicketSchema>;
+export type TicketResponse = z.infer<typeof TicketResponseSchema>;
+export type TicketCreateInput = z.infer<typeof TicketCreateSchema>;

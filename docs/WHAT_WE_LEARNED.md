@@ -326,6 +326,56 @@ Documentar problemas e soluções fortalece conhecimento do time e facilita debu
 
 - Mentalidade orientada a boas práticas e engenharia de software de nível sênior.
 
+**👥 Capítulo 12 — Simulação de Equipe e Gestão de Devs Fakes**
+
+**O que foi feito**
+
+Criação de um script (dev-manager.sh) para gerenciar múltiplos devs fictícios em um projeto Git.
+
+Funcionalidades implementadas:
+
+- Adição, remoção e listagem de devs simulados.
+
+- Troca manual de usuário (git config user.name/email) para simular commits de diferentes devs.
+
+- Auto-switch baseado no padrão de branch (feature/devA-_ ou feature/devB-_).
+
+- Exibição dos últimos commits de cada dev.
+
+- Suporte a emojis no nome dos devs, permitindo personalização visual.
+
+- Arquivo JSON (.dev-users.json) para persistência das informações dos devs dentro do projeto.
+
+**Erros e soluções**
+
+- Inicialmente, o script não encontrava o arquivo JSON ao rodar a partir de diferentes diretórios.
+  - Solução: uso de SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" para garantir referência absoluta ao arquivo.
+
+- Problemas com indexação e leitura do JSON usando jq.
+  - Solução: validação do comprimento do array antes da leitura e uso de índices corretos em todas as funções.
+
+📌 Aprendizado
+
+- Ferramentas internas podem simular ambientes de desenvolvimento realistas, aumentando a compreensão de fluxo de equipe.
+
+- Automatizar troca de usuários melhora a produtividade e permite testes de integração e commits múltiplos sem risco de conflitar com dados reais.
+
+- Trabalhar com arquivos JSON, jq e shell scripts reforça habilidades de scripting, manipulação de dados e pipelines de DevOps.
+
+- Pequenas soluções de automação podem ter grande impacto na experiência de desenvolvimento, onboarding e testes de features multi-usuário.
+
+**💡 O que isso demonstra**
+
+- Capacidade de criar ferramentas internas para otimizar o fluxo de desenvolvimento.
+
+- Habilidade em combinar Git, Bash e JSON para simulação de cenários de equipe.
+
+- Consistência na aplicação de padrões de desenvolvimento e automação de tarefas repetitivas.
+
+- Mentalidade de engenharia profissional: pensar não apenas no código, mas em como equipes interagem com ele.
+
+- Atenção à usabilidade e experiência de desenvolvedores, mesmo em scripts internos, refletindo visão de Tech Lead.
+
 ### 🏆 Impacto Profissional
 
 - **Tech Lead Mindset** → estruturar projeto, CI/CD, automação e boas práticas.

@@ -6,24 +6,29 @@ O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
 ---
 
-## [Unreleased]
+## [0.3.0] 12-09-2025
 
 ### Added
 
 - **CRUD completo de Tickets** com suporte a:
   - Criação, listagem, busca por ID e atualização de status.
   - Adição de **respostas** (mensagens) vinculadas ao ticket.
+
 - **Row-Level Security (RLS)** aplicada nos tickets por `tenantId` e `userId`.
+
 - **Validação de acesso**:
   - `UnauthorizedError` quando o contexto do tenant não existe.
   - `ForbiddenError` quando o usuário tenta acessar tickets de outro tenant.
-- **Testes unitários e integração** cobrindo todos os métodos do `TicketsRepository`.
-- **Utilitário `getPrismaClient`** para simplificar a importação do Prisma Client.
+
+- **Testes unitários e integração** cobrindo todos os métodos do `TicketsRepository` e `TicketsAction`.
+
+- **Utilitário `getPrismaClient`** para simplificar a importação do Prisma Client. 
 
 ### Changed
 
 - Refatoração de tipos e schemas do Zod para arquivo dedicado (`tickets-types.ts`).
-- Ajustes nos mocks de testes para refletir a estrutura completa do ticket e respostas.
+
+- Ajustes no mock de testes do prisma para refletir a estrutura completa das resposta do tickets.
 
 ---
 
@@ -65,7 +70,7 @@ O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
 ---
 
-## [0.1.0] - 22-09-2025
+## [0.1.0] - 22-08-2025
 
 ### Added
 

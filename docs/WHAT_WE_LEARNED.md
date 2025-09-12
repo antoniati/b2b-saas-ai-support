@@ -275,6 +275,62 @@ Documentar problemas e soluções fortalece conhecimento do time e facilita debu
 
 - Mentalidade de engenharia profissional: sempre resolver problemas de infraestrutura antes de implementar novas features.
 
+## 🎫 Capítulo 11 — Tickets CRUD e Domain-Driven Design
+
+**O que foi feito**
+
+- Criação do domínio Ticket com tipagem estática forte (ticket.types.ts).
+
+- Validação robusta com Zod (ticket.schemas.ts) para entrada e saída de dados.
+
+- Implementação da camada Repository com filtros automáticos de tenant_id via RLS.
+
+- Criação da camada Service com regras de negócio, como mudança de status e atribuição de responsável.
+
+ - Construção da camada Action para orquestrar fluxo entre front e backend.
+
+- Escrita de testes unitários cobrindo repository e server actions.
+  
+- Configuração de fixtures e setup unificado para simular múltiplos tenants durante os testes.
+
+- TODO: Implementação da API (/api/tickets) com handlers padronizados e tipados.
+
+**Erros e soluções**
+
+- O schema TicketResponseSchema continha um erro de sintaxe "bobo", que foi solucionado alterando a letra inicial do tenantId para mínuscula. 
+
+- O Postgres não conseguia subir porque a porta 5432 já está em uso no seu sistema host. Foi solucionado liberando a porta 
+  
+  * soluções possíveis: 
+    
+    * mudar a porta do container (ex: `ports: - "5433:5432"`)
+    
+    * remover `ports:` e usar rede interna do Docker (não expor a porta para o host: `DATABASE_URL="postgres://postgres:postgres@saas_postgres:5432/saasdb`)
+    
+    * desativar postgres na máquina local: `sudo systemctl disable --now- postgresql`
+
+**📌 Aprendizado**
+
+- Criar uma feature complexa do zero exige domínio do fluxo completo (types → schemas → repos → services → actions → endpoints → tests).
+
+- Response DTOs são essenciais para desacoplar banco e API pública, evitando vazamento de dados sensíveis e acoplamento à ORM.
+
+- Isolamento multi-tenant deve ser garantido em todas as camadas — do banco até o middleware e os testes.
+
+- A porta 5432 é padrão do Postgres,ao instalar o postgre diretamente no sistema (fora do Docker) o serviço inicia automaticamente quando ligamos o computador.
+  
+**💡 O que isso demonstra**
+
+- Consistência na aplicação de padrões de desenvolvimento e arquitetura de software.
+
+- Capacidade de identificar e resolver problemas de infraestrutura e inicialização de containers de forma eficiente.
+
+- Habilidade em propor múltiplas soluções técnicas e tomar decisões fundamentadas de maneira profissional.
+
+- Competência em estruturar features complexas com foco em segurança, testabilidade e escalabilidade.
+
+- Mentalidade orientada a boas práticas e engenharia de software de nível sênior.
+  
 ### 🏆 Impacto Profissional
 
 - **Tech Lead Mindset** → estruturar projeto, CI/CD, automação e boas práticas.

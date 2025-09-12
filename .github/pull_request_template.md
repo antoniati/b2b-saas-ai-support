@@ -15,8 +15,9 @@
 - [ ] Exeutei `pnpm run format:check` e não há erros
 - [ ] Executei `pnpm run lint` e não há erros
 - [ ] Executei `pnpm run type-check` e não há erros
-- [ ] Executei `pnpm test:all` e todos passam
-- [ ] Adicionei testes que provam que minha fix é eficaz
+- [ ] Executei `pnpm run test && pnpm run test:ci ` e todos passam
+- [ ] Executei `pnpm run build ` e não há erros
+- [ ] Adicionei testes unitários que provam que minha feature é eficaz
 - [ ] Adicionei documentação necessária
 - [ ] Atualizei o CHANGELOG.md
 

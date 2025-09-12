@@ -7,6 +7,7 @@ import "@/__tests__/__mocks__/tokens-mock";
 import "@/__tests__/__mocks__/users-mock";
 import "@/__tests__/__mocks__/password-mock";
 import "@/__tests__/__mocks__/emails-mock";
+import "@/__tests__/__mocks__/tickets-mock";
 
 // 2️⃣ Helpers globais
 import { createMockRequestAndContext } from "@/__tests__/__setup__/helpers/create-mock-request";

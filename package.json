@@ -26,7 +26,11 @@
     "test:ci": "jest --ci --coverage",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "create:dev": "./scripts/dev-manager.sh add",
+    "list:devs": "./scripts/dev-manager.sh list",
+    "remove:devs": "./scripts/dev-manager.sh remove",
+    "switch:dev": "./scripts/dev-manager.sh switcg"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.10.0",

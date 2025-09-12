@@ -14,7 +14,10 @@ jest.mock("@/features/tenants/utils/tenants-domain-utils", () => ({
 jest.mock("@/features/tenants/utils/tenants-guards-utils", () => ({
   getRequestContext: jest.fn(),
   getRequestTenantId: jest.fn(),
-  requireAuthenticated: jest.fn(),
+  requireAuthenticated: jest.fn(() => ({
+    userId: "user1",
+    tenantId: "tenant1",
+  })),
   ensureTenantAccess: jest.fn(),
   requireTenantId: jest.fn(),
 }));

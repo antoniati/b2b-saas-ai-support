@@ -68,4 +68,8 @@ export const ERROR_MESSAGES = {
   TENANT_SLUG_REQUIRED: "O identificador (slug) do tenant é obrigatório.",
   TENANT_SLUG_INVALID: "O identificador (slug) do tenant é inválido.",
   TENANT_PLAN_REQUIRED: "O plano do tenant é obrigatório.",
+
+  // Tickets
+  TICKET_CREATION_FAILED: "Falha ao criar ticket.",
+  TICKET_NOT_FOUND: "Ticket não encontrado.",
 };

@@ -5,7 +5,7 @@ import { TicketStatus } from "@prisma/client";
 // TicketResponse
 export const TicketResponseSchema = z.object({
   id: z.string(),
-  TicketId: z.string(),
+  ticketId: z.string(),
   senderId: z.string().nullable().optional(),
   message: z.string(),
   isAi: z.boolean(),

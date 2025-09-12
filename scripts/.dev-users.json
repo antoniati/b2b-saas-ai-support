@@ -1,0 +1,14 @@
+[
+  {
+    "name": "techLead",
+    "email": "techlead@local.fake"
+  },
+  {
+    "name": "devbackend",
+    "email": "devbackend@local.fake"
+  },
+  {
+    "name": "devfrontend",
+    "email": "devfrontend@local.fake"
+  }
+]

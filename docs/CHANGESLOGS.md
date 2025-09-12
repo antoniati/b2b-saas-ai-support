@@ -22,7 +22,7 @@ O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
 - **Testes unitários e integração** cobrindo todos os métodos do `TicketsRepository` e `TicketsAction`.
 
-- **Utilitário `getPrismaClient`** para simplificar a importação do Prisma Client. 
+- **Utilitário `getPrismaClient`** para simplificar a importação do Prisma Client.
 
 ### Changed
 

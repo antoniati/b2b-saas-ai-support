@@ -158,10 +158,12 @@ Seguimos Conventional Commits:
 | Etapa | Feature                               | Descrição                                                         | Responsável       | Status       |
 | ----- | ------------------------------------- | ----------------------------------------------------------------- | ----------------- | ------------ |
 | ✅ 1  | **Autenticação Multi-Tenant**         | NextAuth.js + middleware + RLS para isolar dados por empresa      | Dev A + Tech Lead | Concluído    |
-| 🟡 2  | **CRUD de Tickets**                   | Criar, listar, atualizar e deletar tickets com validação + testes | Dev A (backend)   | Em andamento |
-| ⚪ 3  | **IA para Respostas Automáticas**     | OpenAI GPT-4 + RAG para FAQ e respostas inteligentes              | Dev A + Dev B     | Pendente     |
-| ⚪ 4  | **Dashboard de Métricas e Analytics** | Visualizar métricas de tickets, suporte e faturamento             | Dev B (frontend)  | Pendente     |
-| ⚪ 5  | **Integração Stripe (Planos SaaS)**   | Checkout, webhooks e histórico de pagamentos                      | Dev A + Tech Lead | Pendente     |
+| ✅ 2  | **CRUD de Tickets**                   | Criar, listar, atualizar e deletar tickets com validação + testes | Dev A (backend)   | Concluído    |
+| 🟡 3  | **HomePage**                          | Homepage moderna, SEO, CTA e links para página de autenticação    | Dev B (frontend)  | Em Andamento |
+| ⚪ 4  | **Login, Register, Recover, Reset**   | Páginas para autenticação integradas ao NextAuth                  | Dev B (frontend)  | Pendente     |
+| ⚪ 5  | **IA para Respostas Automáticas**     | OpenAI GPT-4 + RAG para FAQ e respostas inteligentes              | Dev A + Dev B     | Pendente     |
+| ⚪ 6  | **Dashboard de Métricas e Analytics** | Visualizar métricas de tickets, suporte e faturamento             | Dev B (frontend)  | Pendente     |
+| ⚪ 7  | **Integração Stripe (Planos SaaS)**   | Checkout, webhooks e histórico de pagamentos                      | Dev A + Tech Lead | Pendente     |
 
 </div>
 
